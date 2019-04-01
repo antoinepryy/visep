@@ -3,6 +3,7 @@
     background: #eee;
     top: 50%;
     left: 50%;
+    transform: translate(-25%, -25%);
     margin: -110px 0 0 -100px;
     padding: 20px;
     border-radius: 4px;

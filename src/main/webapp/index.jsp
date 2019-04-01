@@ -13,20 +13,23 @@
 </head>
 <body  class="w-100 h-100" style="background-color: red">
 <div id="particles-js">
-    <div  class="login-form">
+    <div class="login-form">
         <div class="text-center m-auto">
-            <h1>VISEP</h1>
-            <h2>Le réseau social made in ISEP !</h2>
+            <div class="py-3">
+                <h1>VISEP</h1>
+                <h2>Le réseau social made in ISEP !</h2>
+            </div>
+
             <form method="post" action="Authentification">
-                <div>
-                    <input type="text">
+                <div class="form-group w-50 mx-auto">
+                    <input class="form-control" type="text" placeholder="Identifiant">
                 </div>
-                <div>
-                    <input type="password">
+                <div class="form-group w-50 mx-auto">
+                    <input  class="form-control" type="password" placeholder="Mot de passe">
                 </div>
-                <div>
-                    <input type="submit">
-                </div>
+
+                <button class="btn btn-primary">Se connecter</button>
+
 
 
             </form>
