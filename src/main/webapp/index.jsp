@@ -21,7 +21,7 @@
             </div>
             <a href="http://localhost:8080/visep_war_exploded/home">link</a>
 
-            <form method="post" action="Authentification">
+            <form method="post" action="home">
                 <div class="form-group w-50 mx-auto">
                     <input class="form-control" type="text" placeholder="Identifiant">
                 </div>
