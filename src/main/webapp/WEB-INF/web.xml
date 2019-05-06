@@ -5,15 +5,24 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+
     <servlet>
         <servlet-name>Home</servlet-name>
-        <servlet-class>controller.Admin</servlet-class>
+        <servlet-class>controller.Home</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
-        <url-pattern>/Home</url-pattern>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Admin</servlet-name>
+        <servlet-class>controller.Admin</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>Admin</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
 </web-app>
