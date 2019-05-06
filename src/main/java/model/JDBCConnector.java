@@ -1,10 +1,6 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class JDBCConnector {
     static Connection databaseConn = null;
@@ -17,8 +13,10 @@ public class JDBCConnector {
             makeJDBCConnection();
 
             log("\n---------- Adding company 'database LLC' to DB ----------");
-            addDataToDB("Antoine", "Pass");
-            addDataToDB("Quentin", "Michel");
+            //addDataUserToDB("Antoine", "Perry", "Pass", 12345, "antoine@gmail.com");
+            //addDataUserToDB("Vincent", "Pescio", "Pass", 10857, "vincent@gmail.com");
+            //addDataAssociationToDB("IsePorc","On adore manger comme des porcs","Uniquement des gros mangeurs wanted");
+            addDataEventToDB("Gros event IsePorc",8);
 
             log("\n---------- Let's get Data from DB ----------");
             getDataFromDB();
@@ -59,19 +57,67 @@ public class JDBCConnector {
 
     }
 
-    private static void addDataToDB(String firstName, String password) {
+    private static void addDataUserToDB(String firstName, String lastName, String password, int code, String mail) {
 
         try {
-            String insertQueryStatement = "INSERT  INTO  user(first_name,password)  VALUES  (?,?)";
+            String insertQueryStatement = "INSERT  INTO  user(first_name,last_name,password,code,mail)  VALUES  (?,?,?,?,?)";
 
             databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
             databasePrepareStat.setString(1, firstName);
-            databasePrepareStat.setString(2, password);
+            databasePrepareStat.setString(2, lastName);
+            databasePrepareStat.setString(3, password);
+            databasePrepareStat.setInt(4, code);
+            databasePrepareStat.setString(5, mail);
             
 
             // execute insert SQL statement
             databasePrepareStat.executeUpdate();
             log(firstName + " added successfully");
+        } catch (
+
+                SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void addDataAssociationToDB(String name, String description, String recruitment) {
+
+        try {
+            String insertQueryStatement = "INSERT  INTO  association(name,description,recruitment)  VALUES  (?,?,?)";
+
+            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+            databasePrepareStat.setString(1, name);
+            databasePrepareStat.setString(2, description);
+            databasePrepareStat.setString(3, recruitment);
+
+
+            // execute insert SQL statement
+            databasePrepareStat.executeUpdate();
+            log(name + " added successfully");
+        } catch (
+
+                SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void addDataEventToDB(String description, int associationId) {
+
+        try {
+            String insertQueryStatement = "INSERT  INTO  event(date_event,description,association_id)  VALUES  (?,?,?)";
+            int year = new java.util.Date().getYear();
+            int month = new java.util.Date().getMonth();
+            int day = new java.util.Date().getDay();
+            java.sql.Date today = new Date(year, month, day);
+            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+            databasePrepareStat.setDate(1, today);
+            databasePrepareStat.setString(2, description);
+            databasePrepareStat.setInt(3, associationId);
+
+
+            // execute insert SQL statement
+            databasePrepareStat.executeUpdate();
+            log("date" + " added successfully");
         } catch (
 
                 SQLException e) {
