@@ -15,21 +15,7 @@
 <div id="particles-js">
     <div class="login-form">
         <div class="text-center m-auto">
-            <div class="py-3">
-                <h1>VISEP</h1>
-                <h2>Le réseau social made in ISEP !</h2>
-            </div>
-            <a href="http://localhost:8080/visep_war_exploded/home">link</a>
-
-            <form method="post" action="Authentification">
-                <div class="form-group w-50 mx-auto">
-                    <input class="form-control" type="text" placeholder="Identifiant">
-                </div>
-                <div class="form-group w-50 mx-auto">
-                    <input  class="form-control" type="password" placeholder="Mot de passe">
-                </div>
-
-                <button class="btn btn-primary">Se connecter</button>
+            <h1>Développement en cours..</h1>
 
 
 
