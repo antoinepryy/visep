@@ -28,6 +28,9 @@ public class Register extends HttpServlet {
 
         if ((null != fName) && (lName != null) && (pw != null) && (cPw != null) && (mail != null)){
             User usr = new User(fName, lName, pw, code, mail);
+
+
+            usr.persist();
             out.println(usr.getFirstName());
             out.println(usr.getLastName());
             out.println(usr.getPassword());
@@ -35,7 +38,6 @@ public class Register extends HttpServlet {
             out.println(usr.getEmail());
             out.println("user saved");
 
-            usr.persist();
 
         }
 

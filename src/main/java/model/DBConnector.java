@@ -58,7 +58,7 @@ public class DBConnector {
 
     }
 
-    private static void addDataUserToDB(String firstName, String lastName, String password, int code, String mail) {
+    public static void addDataUserToDB(String firstName, String lastName, String password, int code, String mail) {
 
         try {
             String insertQueryStatement = "INSERT  INTO  user(first_name,last_name,password,code,mail)  VALUES  (?,?,?,?,?)";
@@ -162,20 +162,36 @@ public class DBConnector {
     }
 
     public static void saveUser(User usr){
+
         try {
-            String insertQueryStatement = "INSERT INTO user(first_name,last_name,password,code,mail)  VALUES (?,?,?,?,?)";
+            log("-------- Simple database Tutorial on how to make JDBC connection to MySQL DBConnector locally on macOS ------------");
+            makeJDBCConnection();
 
-            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
-            databasePrepareStat.setString(1, usr.getFirstName());
-            databasePrepareStat.setString(2, usr.getLastName());
-            databasePrepareStat.setString(3, usr.getPassword());
-            databasePrepareStat.setInt(4, 1);
-            databasePrepareStat.setString(5, usr.getEmail());
+            try {
+                String insertQueryStatement = "INSERT INTO user(first_name,last_name,password,code,mail)  VALUES (?,?,?,?,?)";
 
-            databasePrepareStat.executeUpdate();
-        } catch (
+                databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+                databasePrepareStat.setString(1, usr.getFirstName());
+                databasePrepareStat.setString(2, usr.getLastName());
+                databasePrepareStat.setString(3, usr.getPassword());
+                databasePrepareStat.setInt(4, 1);
+                databasePrepareStat.setString(5, usr.getEmail());
 
-                SQLException e) {e.printStackTrace();
+                databasePrepareStat.executeUpdate();
+            } catch (
+
+                    SQLException e) {e.printStackTrace();
+            }
+
+
+
+            databasePrepareStat.close();
+            databaseConn.close(); // connection close
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
         }
+
     }
 }

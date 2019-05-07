@@ -65,7 +65,6 @@ public class User implements Serializable {
     }
 
     public void persist(){
-        User usr = this;
-        DBConnector.saveUser(usr);
+        DBConnector.saveUser(this);
     }
 }
