@@ -15,17 +15,7 @@
 <div id="particles-js">
     <div class="login-form">
         <div class="text-center m-auto">
-            <h1>INDEX || Développement en cours..</h1>
-            <p>
-                <a href="http://localhost:8080/visep_war_exploded/home">HOME</a>
-
-            </p>
-            <p>
-                <a href="http://localhost:8080/visep_war_exploded/login">LOGIN</a>
-
-            </p>
-
-
+            <h1>ADMIN || Développement en cours..</h1>
 
         </div>
     </div>

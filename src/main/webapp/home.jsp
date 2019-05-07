@@ -15,11 +15,10 @@
 <div id="particles-js">
     <div class="login-form">
         <div class="text-center m-auto">
-            <h1>Développement en cours..</h1>
+            <h1>HOME || Développement en cours..</h1>
 
 
 
-            </form>
         </div>
     </div>
 </div>
