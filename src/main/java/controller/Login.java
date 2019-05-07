@@ -21,17 +21,13 @@ public class Login extends HttpServlet {
 
 
         if(uname.equals("test") && pword.equals("test")) {
-            out.println("ok");
             HttpSession session=request.getSession();
             session.setAttribute("user",uname);
-//            RequestDispatcher dispatcher=request.getRequestDispatcher("/home.jsp");
-//            dispatcher.forward(request,response);
+            response.sendRedirect("home");
         }
         else{
-            out.println("not ok");
+            response.sendRedirect("login");
 
-//            RequestDispatcher dispatcher=request.getRequestDispatcher("/login.jsp");
-//            dispatcher.forward(request,response);
         }
     }
 
