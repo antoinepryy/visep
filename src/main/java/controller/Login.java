@@ -19,7 +19,6 @@ public class Login extends HttpServlet {
         PrintWriter out = response.getWriter();
 
 
-
         if(uname.equals("test") && pword.equals("test")) {
             HttpSession session=request.getSession();
             session.setAttribute("user",uname);

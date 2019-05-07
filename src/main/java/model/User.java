@@ -10,7 +10,12 @@ public class User implements Serializable {
     private int code;
     private String email;
 
-    public  User(){
+    public  User(String fName, String lName, String pw, int code, String mail){
+        this.firstName = fName;
+        this.lastName = lName;
+        this.password = pw;
+        this.code = code;
+        this.email = mail;
 
     }
 
@@ -57,5 +62,10 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void persist(){
+        User usr = this;
+        DBConnector.saveUser(usr);
     }
 }

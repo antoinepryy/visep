@@ -2,23 +2,24 @@ package model;
 
 import java.sql.*;
 
-public class JDBCConnector {
+public class DBConnector {
     static Connection databaseConn = null;
     static PreparedStatement databasePrepareStat = null;
 
     public static void main(String[] argv) {
 
         try {
-            log("-------- Simple database Tutorial on how to make JDBC connection to MySQL DB locally on macOS ------------");
+            log("-------- Simple database Tutorial on how to make JDBC connection to MySQL DBConnector locally on macOS ------------");
             makeJDBCConnection();
 
-            log("\n---------- Adding company 'database LLC' to DB ----------");
+            log("\n---------- Adding company 'database LLC' to DBConnector ----------");
             //addDataUserToDB("Antoine", "Perry", "Pass", 12345, "antoine@gmail.com");
             //addDataUserToDB("Vincent", "Pescio", "Pass", 10857, "vincent@gmail.com");
             //addDataAssociationToDB("IsePorc","On adore manger comme des porcs","Uniquement des gros mangeurs wanted");
-            addDataEventToDB("Gros event IsePorc",8);
-
-            log("\n---------- Let's get Data from DB ----------");
+            //addDataEventToDB("Gros event IsePorc",8);
+            User usr = new User("test", "test", "test", 1, "test");
+            saveUser(usr);
+            log("\n---------- Let's get Data from DBConnector ----------");
             getDataFromDB();
 
             databasePrepareStat.close();
@@ -158,5 +159,23 @@ public class JDBCConnector {
     private static void log(String string) {
         System.out.println(string);
 
+    }
+
+    public static void saveUser(User usr){
+        try {
+            String insertQueryStatement = "INSERT INTO user(first_name,last_name,password,code,mail)  VALUES (?,?,?,?,?)";
+
+            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+            databasePrepareStat.setString(1, usr.getFirstName());
+            databasePrepareStat.setString(2, usr.getLastName());
+            databasePrepareStat.setString(3, usr.getPassword());
+            databasePrepareStat.setInt(4, 1);
+            databasePrepareStat.setString(5, usr.getEmail());
+
+            databasePrepareStat.executeUpdate();
+        } catch (
+
+                SQLException e) {e.printStackTrace();
+        }
     }
 }

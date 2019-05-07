@@ -23,22 +23,30 @@
             </div>
             <a href="http://localhost:8080/visep_war_exploded/home">LINK</a>
 
-            <form method="post" action="login">
+            <form method="post" action="register">
                 <div class="form-group w-50 mx-auto">
-                    <input class="form-control" type="text" name="username"  placeholder="Identifiant">
+                    <input class="form-control" type="text" name="fName"  required placeholder="Prénom">
                 </div>
                 <div class="form-group w-50 mx-auto">
-                    <input  class="form-control" name="password" type="password" placeholder="Mot de passe">
+                    <input class="form-control" type="text" name="lName" required placeholder="Nom">
                 </div>
                 <div class="form-group w-50 mx-auto">
-                    <input class="form-control" type="text" name="username"  placeholder="Identifiant">
+                    <input  class="form-control" name="password" type="password" required placeholder="Mot de passe">
                 </div>
                 <div class="form-group w-50 mx-auto">
-                    <input  class="form-control" name="password" type="password" placeholder="Mot de passe">
+                    <input  class="form-control" name="confPassword" type="password" required placeholder="Confimer mot de passe">
+                </div>
+
+                <div class="form-group w-50 mx-auto">
+                    <input  class="form-control" name="code" type="number" required placeholder="Code ISEP">
+                </div>
+
+                <div class="form-group w-50 mx-auto">
+                    <input  class="form-control" name="mail" type="text" required placeholder="Email">
                 </div>
 
 
-                <button class="btn btn-primary">Se connecter</button>
+                <button class="btn btn-primary">S'enregistrer</button>
 
 
 
