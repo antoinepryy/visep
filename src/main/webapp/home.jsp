@@ -17,6 +17,8 @@
 <div id="particles-js">
     <div class="login-form">
         <div class="text-center m-auto">
+            <button type="button" class="btn btn-primary"><a href="logout">Déconnexion</a></button>
+
             <h1>HOME || Développement en cours..</h1>
 
 

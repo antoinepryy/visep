@@ -47,6 +47,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>controller.Logout</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>Index</servlet-name>
         <servlet-class>controller.Index</servlet-class>
     </servlet>
@@ -63,6 +73,14 @@
 
     <filter-mapping>
         <filter-name>LgFilter</filter-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/admin</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LgFilter</filter-name>
+        <url-pattern>/home</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LgFilter</filter-name>
+        <url-pattern>/index</url-pattern>
     </filter-mapping>
 </web-app>
