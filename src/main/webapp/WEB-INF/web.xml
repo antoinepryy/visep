@@ -57,6 +57,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Association</servlet-name>
+        <servlet-class>controller.Association</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Association</servlet-name>
+        <url-pattern>/association</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>Index</servlet-name>
         <servlet-class>controller.Index</servlet-class>
     </servlet>
@@ -65,6 +75,8 @@
         <servlet-name>Index</servlet-name>
         <url-pattern></url-pattern>
     </servlet-mapping>
+
+
 
     <filter>
         <filter-name>LgFilter</filter-name>
@@ -81,6 +93,6 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>LgFilter</filter-name>
-        <url-pattern>/index</url-pattern>
+        <url-pattern>/</url-pattern>
     </filter-mapping>
 </web-app>
