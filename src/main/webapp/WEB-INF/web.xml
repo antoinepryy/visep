@@ -13,7 +13,7 @@
 
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
-        <url-pattern>/home</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -67,13 +67,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>Index</servlet-name>
-        <servlet-class>controller.Index</servlet-class>
+        <servlet-name>Messenger</servlet-name>
+        <servlet-class>controller.Messenger</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>Index</servlet-name>
-        <url-pattern></url-pattern>
+        <servlet-name>Messenger</servlet-name>
+        <url-pattern>/messenger</url-pattern>
     </servlet-mapping>
 
 
@@ -89,10 +89,14 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>LgFilter</filter-name>
-        <url-pattern>/home</url-pattern>
+        <url-pattern>/</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>LgFilter</filter-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/messenger</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LgFilter</filter-name>
+        <url-pattern>/association</url-pattern>
     </filter-mapping>
 </web-app>

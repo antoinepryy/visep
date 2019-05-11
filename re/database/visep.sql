@@ -127,41 +127,41 @@ INSERT INTO `user` (`id`, `first_name`, `last_name`, `password`, `code`, `mail`)
 (2, 'Vincent', 'Pescio', 'Pass', 10857, 'vincent@gmail.com');
 
 --
--- Index pour les tables déchargées
+-- Messenger pour les tables déchargées
 --
 
 --
--- Index pour la table `association`
+-- Messenger pour la table `association`
 --
 ALTER TABLE `association`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `event`
+-- Messenger pour la table `event`
 --
 ALTER TABLE `event`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `follower`
+-- Messenger pour la table `follower`
 --
 ALTER TABLE `follower`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `membership`
+-- Messenger pour la table `membership`
 --
 ALTER TABLE `membership`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `message`
+-- Messenger pour la table `message`
 --
 ALTER TABLE `message`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `user`
+-- Messenger pour la table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);

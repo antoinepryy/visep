@@ -3,7 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:layout-connected>
+<t:layout-disconnected>
     <jsp:body>
         <div>
             <div class="py-3">
@@ -29,4 +29,4 @@
             </form>
         </div>
     </jsp:body>
-</t:layout-connected>
+</t:layout-disconnected>
