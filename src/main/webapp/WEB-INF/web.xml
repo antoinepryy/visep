@@ -13,7 +13,7 @@
 
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -89,7 +89,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>LgFilter</filter-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/home</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>LgFilter</filter-name>
