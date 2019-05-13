@@ -67,4 +67,9 @@ public class User implements Serializable {
     public void persist(){
         DBConnector.saveUser(this);
     }
+
+    public static String isAuthenticationValidated(String uname, String pw){
+        return DBConnector.checkIfUserExist(uname, pw);
+
+    }
 }
