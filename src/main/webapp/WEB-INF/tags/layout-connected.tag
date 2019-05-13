@@ -1,6 +1,5 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
-<%@attribute name="header" fragment="true" %>
-<%@attribute name="footer" fragment="true" %>
+<%@attribute name="head" fragment="true" %>
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -10,6 +9,8 @@
     <link rel="stylesheet" href="static/css/app.css">
     <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
+    <jsp:invoke fragment="head"/>
+
 </head>
 <body id="particles-js" style="background-color: red">
 

@@ -165,7 +165,6 @@ public class DBConnector {
     public static void saveUser(User usr){
 
         try {
-            log("-------- Simple database Tutorial on how to make JDBC connection to MySQL DBConnector locally on macOS ------------");
             makeJDBCConnection();
 
             try {
@@ -196,7 +195,6 @@ public class DBConnector {
 
     }
     public static String checkIfUserExist(String uname, String pw) {
-
         try {
             makeJDBCConnection();
 
@@ -233,4 +231,24 @@ public class DBConnector {
 
     }
 
+    public static void saveAssociation(Association association){
+
+            try {
+                String insertQueryStatement = "INSERT INTO association(name, description, recruitment)  VALUES (?,?,?)";
+
+                databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+                databasePrepareStat.setString(1, association.getName());
+                databasePrepareStat.setString(2, association.getDescription());
+                databasePrepareStat.setString(3, association.getRecruitment());
+
+
+                databasePrepareStat.executeUpdate();
+            } catch (
+
+                    SQLException e) {e.printStackTrace();
+            }
+
+
+
+    }
 }
