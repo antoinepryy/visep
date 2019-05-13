@@ -1,5 +1,6 @@
 package model;
 
+import java.io.PrintWriter;
 import java.sql.*;
 
 public class DBConnector {
@@ -193,12 +194,44 @@ public class DBConnector {
         }
 
     }
-
-
-    public static void saveAssociation(Association association){
-
+    public static String checkIfUserExist(String uname, String pw) {
         try {
             makeJDBCConnection();
+
+            // MySQL Select Query Tutorial
+            String getQueryStatement = "SELECT * FROM user WHERE code = ? AND password = ? ";
+
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+
+
+            databasePrepareStat.setInt(1, Integer.parseInt(uname));
+            databasePrepareStat.setString(2 ,pw);
+
+            // Execute the Query, and get a java ResultSet
+            ResultSet rs = databasePrepareStat.executeQuery();
+
+            // Let's iterate through the java ResultSet
+            System.out.println(rs);
+            String cd = null;
+            while (rs.next()){
+                cd = rs.getString("code");
+                System.out.println(rs.getString("password"));
+            }
+            return cd;
+
+        } catch (
+
+                SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+
+            return null;
+        }
+
+
+    }
+
+    public static void saveAssociation(Association association){
 
             try {
                 String insertQueryStatement = "INSERT INTO association(name, description, recruitment)  VALUES (?,?,?)";
@@ -216,14 +249,6 @@ public class DBConnector {
             }
 
 
-
-            databasePrepareStat.close();
-            databaseConn.close(); // connection close
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
 
     }
 }

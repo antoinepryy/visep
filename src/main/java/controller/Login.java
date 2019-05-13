@@ -1,5 +1,7 @@
 package controller;
 
+import model.User;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +21,11 @@ public class Login extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
+        out.println(User.isAuthenticationValidated(uname, pword));
 
-        if(uname.equals("test") && pword.equals("test")) {
+
+
+        if(User.isAuthenticationValidated(uname, pword) != null) {
             HttpSession session=request.getSession();
             session.setAttribute("user",uname);
             session.setAttribute("isAdmin", true);
