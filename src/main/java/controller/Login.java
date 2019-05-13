@@ -15,6 +15,7 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uname=request.getParameter("username");
         String pword=request.getParameter("password");
+        String isAdmin=request.getParameter("is_admin");
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
@@ -22,6 +23,7 @@ public class Login extends HttpServlet {
         if(uname.equals("test") && pword.equals("test")) {
             HttpSession session=request.getSession();
             session.setAttribute("user",uname);
+            session.setAttribute("isAdmin", true);
             response.sendRedirect("home");
         }
         else{
