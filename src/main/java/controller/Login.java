@@ -17,7 +17,6 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uname=request.getParameter("username");
         String pword=request.getParameter("password");
-        String isAdmin=request.getParameter("is_admin");
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 

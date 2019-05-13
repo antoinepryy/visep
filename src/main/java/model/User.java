@@ -9,6 +9,7 @@ public class User implements Serializable {
     private String password;
     private int code;
     private String email;
+    private boolean isAdmin;
 
     public  User(String fName, String lName, String pw, int code, String mail){
         this.firstName = fName;
@@ -70,6 +71,5 @@ public class User implements Serializable {
 
     public static String isAuthenticationValidated(String uname, String pw){
         return DBConnector.checkIfUserExist(uname, pw);
-
     }
 }
