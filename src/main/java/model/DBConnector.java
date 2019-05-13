@@ -174,7 +174,7 @@ public class DBConnector {
                 databasePrepareStat.setString(1, usr.getFirstName());
                 databasePrepareStat.setString(2, usr.getLastName());
                 databasePrepareStat.setString(3, usr.getPassword());
-                databasePrepareStat.setInt(4, 1);
+                databasePrepareStat.setInt(4, usr.getCode());
                 databasePrepareStat.setString(5, usr.getEmail());
 
                 databasePrepareStat.executeUpdate();
