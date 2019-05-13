@@ -1,5 +1,7 @@
 package model;
 
+import sun.security.pkcs11.Secmod;
+
 import java.io.Serializable;
 
 public class Association implements Serializable {
@@ -38,5 +40,10 @@ public class Association implements Serializable {
 
     public void setRecruitment(String recruitment) {
         this.recruitment = recruitment;
+    }
+
+    public void persist(){
+        DBConnector.saveAssociation(this);
+
     }
 }

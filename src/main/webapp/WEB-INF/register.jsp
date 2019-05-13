@@ -3,6 +3,9 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:layout-connected>
+    <jsp:attribute name="head">
+            <link rel="stylesheet" href="static/css/register.css">
+    </jsp:attribute>
     <jsp:body>
         <div>
             <div class="text-center m-auto">

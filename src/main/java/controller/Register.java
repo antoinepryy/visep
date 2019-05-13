@@ -31,22 +31,15 @@ public class Register extends HttpServlet {
 
 
             usr.persist();
-            out.println(usr.getFirstName());
-            out.println(usr.getLastName());
-            out.println(usr.getPassword());
-            out.println(usr.getCode());
-            out.println(usr.getEmail());
-            out.println("user saved");
+            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+
 
 
         }
 
         else{
-            out.println(fName);
-            out.println(lName);
-            out.println(pw);
-            out.println(cPw);
-            out.println(mail);
+            request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+
 
         }
 

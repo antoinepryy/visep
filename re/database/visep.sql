@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 06 mai 2019 à 19:44
--- Version du serveur :  10.1.31-MariaDB
--- Version de PHP :  7.2.4
+-- Généré le :  lun. 13 mai 2019 à 10:36
+-- Version du serveur :  10.1.34-MariaDB
+-- Version de PHP :  7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -35,14 +35,6 @@ CREATE TABLE `association` (
   `recruitment` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Déchargement des données de la table `association`
---
-
-INSERT INTO `association` (`id`, `name`, `description`, `recruitment`) VALUES
-(1, 'IsePorc', 'On adore manger comme des porcs', 'Uniquement des gros mangeurs wanted'),
-(2, 'IsePorc', 'On adore manger comme des porcs', 'Uniquement des gros mangeurs wanted');
-
 -- --------------------------------------------------------
 
 --
@@ -51,19 +43,10 @@ INSERT INTO `association` (`id`, `name`, `description`, `recruitment`) VALUES
 
 CREATE TABLE `event` (
   `id` int(11) NOT NULL,
-  `date_event` date NOT NULL,
+  `date` date NOT NULL,
   `description` text NOT NULL,
   `association_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `event`
---
-
-INSERT INTO `event` (`id`, `date_event`, `description`, `association_id`) VALUES
-(1, '2019-05-01', 'Gros event IsePorc', 8),
-(2, '2019-05-01', 'Gros event IsePorc', 8),
-(3, '2019-05-01', 'Gros event IsePorc', 8);
 
 -- --------------------------------------------------------
 
@@ -115,53 +98,49 @@ CREATE TABLE `user` (
   `last_name` varchar(256) NOT NULL,
   `password` varchar(1024) NOT NULL,
   `code` int(11) NOT NULL,
-  `mail` varchar(256) NOT NULL
+  `mail` varchar(256) NOT NULL,
+  `is_admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `password`, `code`, `mail`) VALUES
-(1, 'Antoine', 'Perry', 'Pass', 12345, 'antoine@gmail.com'),
-(2, 'Vincent', 'Pescio', 'Pass', 10857, 'vincent@gmail.com');
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `password`, `code`, `mail`, `is_admin`) VALUES
+(1, 'admin', 'admin', 'admin', 99999, 'admin@admin.com', 1),
+(2, 'uyt', 'uyt', '4567', 1, 'xdfgb', 0),
+(3, 'ijh', 'ijn', 'ijn', 69, 'ijn', 0);
 
 --
--- Messenger pour les tables déchargées
+-- Index pour les tables déchargées
 --
 
 --
--- Messenger pour la table `association`
+-- Index pour la table `association`
 --
 ALTER TABLE `association`
   ADD PRIMARY KEY (`id`);
 
 --
--- Messenger pour la table `event`
---
-ALTER TABLE `event`
-  ADD PRIMARY KEY (`id`);
-
---
--- Messenger pour la table `follower`
+-- Index pour la table `follower`
 --
 ALTER TABLE `follower`
   ADD PRIMARY KEY (`id`);
 
 --
--- Messenger pour la table `membership`
+-- Index pour la table `membership`
 --
 ALTER TABLE `membership`
   ADD PRIMARY KEY (`id`);
 
 --
--- Messenger pour la table `message`
+-- Index pour la table `message`
 --
 ALTER TABLE `message`
   ADD PRIMARY KEY (`id`);
 
 --
--- Messenger pour la table `user`
+-- Index pour la table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
@@ -174,13 +153,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `association`
 --
 ALTER TABLE `association`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT pour la table `event`
---
-ALTER TABLE `event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `follower`
@@ -204,7 +177,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
