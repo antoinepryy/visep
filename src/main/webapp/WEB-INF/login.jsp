@@ -13,7 +13,7 @@
 
             <form method="post" action="login">
                 <div class="form-group w-50 mx-auto">
-                    <input class="form-control" type="text" name="username"  placeholder="Identifiant">
+                    <input class="form-control" type="number" name="username"  placeholder="Identifiant" required>
                 </div>
                 <div class="form-group w-50 mx-auto">
                     <input  class="form-control" name="password" type="password" placeholder="Mot de passe">

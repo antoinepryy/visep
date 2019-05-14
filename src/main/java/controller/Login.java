@@ -27,7 +27,7 @@ public class Login extends HttpServlet {
         if(User.isAuthenticationValidated(uname, pword) != null) {
             HttpSession session=request.getSession();
             session.setAttribute("user",uname);
-            session.setAttribute("isAdmin", true);
+            session.setAttribute("isAdmin", User.isAdmin(uname));
             response.sendRedirect("home");
         }
         else{

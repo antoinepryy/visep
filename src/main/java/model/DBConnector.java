@@ -251,4 +251,19 @@ public class DBConnector {
 
 
     }
+
+    public static Boolean isAdmin(String code) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT is_admin FROM user WHERE code = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, Integer.parseInt(code));
+            ResultSet rs = databasePrepareStat.executeQuery();
+            rs.next();
+            return rs.getBoolean("is_admin");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
