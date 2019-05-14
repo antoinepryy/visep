@@ -10,8 +10,10 @@ public class Association implements Serializable {
     private String description;
     private String recruitment;
 
-    public Association() {
-
+    public Association(String name, String description, String recruitment) {
+        this.name = name;
+        this.description = description;
+        this.recruitment = recruitment;
     }
 
     public int getId() {
