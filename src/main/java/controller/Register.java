@@ -27,7 +27,7 @@ public class Register extends HttpServlet {
         response.setContentType("text/html");
 
         if ((null != fName) && (lName != null) && (pw != null) && (cPw != null) && (mail != null)){
-            User usr = new User(fName, lName, pw, code, mail);
+            User usr = new User(fName, lName, pw, code, mail, false);
 
 
             usr.persist();

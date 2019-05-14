@@ -18,7 +18,7 @@ public class DBConnector {
             //addDataUserToDB("Vincent", "Pescio", "Pass", 10857, "vincent@gmail.com");
             //addDataAssociationToDB("IsePorc","On adore manger comme des porcs","Uniquement des gros mangeurs wanted");
             //addDataEventToDB("Gros event IsePorc",8);
-            User usr = new User("test", "test", "test", 1, "test");
+            User usr = new User("test", "test", "test", 1, "test", false);
             saveUser(usr);
             log("\n---------- Let's get Data from DBConnector ----------");
             getDataFromDB();
@@ -168,7 +168,7 @@ public class DBConnector {
             makeJDBCConnection();
 
             try {
-                String insertQueryStatement = "INSERT INTO user(first_name,last_name,password,code,mail)  VALUES (?,?,?,?,?)";
+                String insertQueryStatement = "INSERT INTO user(first_name,last_name,password,code,mail,is_admin)  VALUES (?,?,?,?,?,?)";
 
                 databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
                 databasePrepareStat.setString(1, usr.getFirstName());
@@ -176,6 +176,7 @@ public class DBConnector {
                 databasePrepareStat.setString(3, usr.getPassword());
                 databasePrepareStat.setInt(4, usr.getCode());
                 databasePrepareStat.setString(5, usr.getEmail());
+                databasePrepareStat.setBoolean(6, usr.getAdmin());
 
                 databasePrepareStat.executeUpdate();
             } catch (

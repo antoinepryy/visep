@@ -2,8 +2,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:layout-connected>
-    <jsp:attribute name="head">
+<t:layout-disconnected>
+    <jsp:attribute name="header">
             <link rel="stylesheet" href="static/css/register.css">
     </jsp:attribute>
     <jsp:body>
@@ -63,4 +63,4 @@
             </div>
         </div>
     </jsp:body>
-</t:layout-connected>
+</t:layout-disconnected>

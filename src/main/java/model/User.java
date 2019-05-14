@@ -9,13 +9,15 @@ public class User implements Serializable {
     private String password;
     private int code;
     private String email;
+    private boolean isAdmin;
 
-    public  User(String fName, String lName, String pw, int code, String mail){
+    public  User(String fName, String lName, String pw, int code, String mail, boolean isAdmin){
         this.firstName = fName;
         this.lastName = lName;
         this.password = pw;
         this.code = code;
         this.email = mail;
+        this.isAdmin = isAdmin;
     }
 
     public int getId() {
@@ -61,6 +63,14 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean getAdmin() {
+        return this.isAdmin;
+    }
+
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public void persist(){
