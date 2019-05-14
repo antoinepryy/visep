@@ -46,6 +46,5 @@ public class Association implements Serializable {
 
     public void persist(){
         DBConnector.saveAssociation(this);
-
     }
 }

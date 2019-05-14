@@ -2,6 +2,8 @@ package model;
 
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBConnector {
     static Connection databaseConn = null;
@@ -21,7 +23,7 @@ public class DBConnector {
             User usr = new User("test", "test", "test", 1, "test", false);
             saveUser(usr);
             log("\n---------- Let's get Data from DBConnector ----------");
-            getDataFromDB();
+            getUsersFromDB();
 
             databasePrepareStat.close();
             databaseConn.close(); // connection close
@@ -127,7 +129,7 @@ public class DBConnector {
         }
     }
 
-    private static void getDataFromDB() {
+    private static void getUsersFromDB() {
 
         try {
             // MySQL Select Query Tutorial
@@ -264,7 +266,25 @@ public class DBConnector {
             return rs.getBoolean("is_admin");
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
+    }
+
+    public static List<Association> getAssociationsFromDB() {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT * FROM association";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<Association> associations = new ArrayList<>();
+            while (rs.next()) {
+                Association association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"));
+                associations.add(association);
+            }
+            return associations;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

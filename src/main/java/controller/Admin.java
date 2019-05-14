@@ -17,7 +17,7 @@ public class Admin extends HttpServlet {
         String recruitment=request.getParameter("recruitment");
         Association association = new Association(name, description, recruitment);
         association.persist();
-        request.getRequestDispatcher("/WEB-INF/page.jsp").forward(request, response);
+        response.sendRedirect("association");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
