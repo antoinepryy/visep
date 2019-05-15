@@ -19,6 +19,7 @@
                 </div>
                 <button class="btn btn-primary">Créer</button>
             </form>
+
         </div>
     </jsp:body>
 </t:layout-connected>
