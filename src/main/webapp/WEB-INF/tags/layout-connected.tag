@@ -12,7 +12,7 @@
     <jsp:invoke fragment="head"/>
 
 </head>
-<body id="particles-js" style="background-color: red">
+<body id="particles-js" style="background-color: #eceff1">
 
 <div id="body" class="center-inside">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" >
@@ -31,11 +31,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="messenger">Messagerie</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout">Déconnexion</a>
+                </li>
 
             </ul>
         </div>
     </nav>
-    <div class="rounded">
+    <div class="rounded bg-white" >
         <jsp:doBody/>
 
     </div>

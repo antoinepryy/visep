@@ -38,9 +38,7 @@ public class DBConnector {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            log("Congrats - Seems your MySQL JDBC Driver Registered!");
         } catch (ClassNotFoundException e) {
-            log("Sorry, couldn't found JDBC driver. Make sure you have added JDBC Maven Dependency Correctly");
             e.printStackTrace();
             return;
         }
@@ -49,12 +47,9 @@ public class DBConnector {
             // DriverManager: The basic service for managing a set of JDBC drivers.
             databaseConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/visep", "root", "");
             if (databaseConn != null) {
-                log("Connection Successful! Enjoy. Now it's time to push data");
             } else {
-                log("Failed to make connection!");
             }
         } catch (SQLException e) {
-            log("MySQL Connection Failed!");
             e.printStackTrace();
             return;
         }

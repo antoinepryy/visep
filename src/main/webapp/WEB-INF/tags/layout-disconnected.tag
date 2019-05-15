@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
 </head>
-<body id="particles-js" style="background-color: red">
+<body id="particles-js" style="background-color: #eceff1">
 
 <div id="body" class="center-inside">
     <div class="rounded">
