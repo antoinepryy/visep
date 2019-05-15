@@ -31,10 +31,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="messenger">Messagerie</a>
                 </li>
+                <% if (session.getAttribute("isAdmin").equals(true)) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin">Admin</a>
+                </li>
+                <% }; %>
                 <li class="nav-item">
                     <a class="nav-link" href="logout">Déconnexion</a>
                 </li>
-
             </ul>
         </div>
     </nav>

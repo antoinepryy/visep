@@ -84,4 +84,12 @@ public class User implements Serializable {
     public static boolean isAdmin(String code) {
         return DBConnector.isAdmin(code);
     }
+
+    public static void addVisepAdmin(String fName, String lname) {
+        DBConnector.addVisepAdmin(fName, lname);
+    }
+
+    public static void deleteVisepAdmin(int code) {
+        DBConnector.deleteVisepAdmin(code);
+    }
 }

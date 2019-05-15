@@ -282,4 +282,50 @@ public class DBConnector {
             return null;
         }
     }
+
+    public static List<User> getVisepAdmins() {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT first_name, last_name, code FROM user WHERE is_admin = 1";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<User> visepAdmins = new ArrayList<>();
+            while (rs.next()) {
+                String fName = rs.getString("first_name");
+                String lName = rs.getString("last_name");
+                int code = rs.getInt("code");
+                User user = new User(fName, lName, null, code, null, true);
+                visepAdmins.add(user);
+            }
+            return visepAdmins;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void addVisepAdmin(String fName, String lName) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "UPDATE user SET is_admin = 1 WHERE first_name = ? and last_name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1, fName);
+            databasePrepareStat.setString(2, lName);
+            databasePrepareStat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteVisepAdmin(int code) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "UPDATE user SET is_admin = 0 WHERE code = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, code);
+            databasePrepareStat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
