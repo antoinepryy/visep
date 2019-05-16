@@ -70,4 +70,16 @@ public class Association implements Serializable {
     public static List<User> getMembers(String nameAsso) {
         return DBConnector.getMembersAsso(nameAsso);
     }
+
+    public Boolean isMember(int userCode) {
+        return DBConnector.isAssoMember(this.name, userCode);
+    }
+
+    public Boolean isAdmin(int userCode) {
+        return DBConnector.isAssoAdmin(this.name, userCode);
+    }
+
+    public void updateInfos() {
+        DBConnector.updateAssoInfos(this);
+    }
 }

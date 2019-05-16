@@ -6,6 +6,8 @@
 <t:layout-connected>
     <jsp:body>
         <jsp:useBean id="association" type="model.Association" scope="request" />
+        <jsp:useBean id="action" type="java.lang.String" scope="request" />
+        <jsp:useBean id="isAdmin" type="java.lang.Boolean" scope="request" />
         <h2 class="text-primary"><jsp:getProperty name="association" property="name"/></h2>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="collapse navbar-collapse">
@@ -20,26 +22,80 @@
             </div>
         </nav>
         <br />
-        <jsp:useBean id="action" type="java.lang.String" scope="request" />
         <c:choose>
             <c:when test="${action.equals('description')}">
-                <h5>Description de l'association</h5>
-                <p><jsp:getProperty name="association" property="description"/></p>
-                <h5>Procédure de recrutement</h5>
-                <p><jsp:getProperty name="association" property="recruitment"/></p>
+                <c:choose>
+                    <c:when test="${isAdmin}">
+                        <form method="post" action="association?name=${association.name}&action=change-description">
+                            <h5>Description de l'association</h5>
+                            <div class="form-group w-50 mx-auto">
+                                <textarea class="form-control" name="description">${association.description}</textarea>
+                            </div>
+                            <h5>Procédure de recrutement</h5>
+                            <div class="form-group w-50 mx-auto">
+                                <textarea class="form-control" name="recruitment">${association.recruitment}</textarea>
+                            </div>
+                            <button class="btn btn-primary">Modifier</button>
+                        </form>
+                    </c:when>
+                    <c:when test="${!isAdmin}">
+                        <h5>Description de l'association</h5>
+                        <p><jsp:getProperty name="association" property="description"/></p>
+                        <h5>Procédure de recrutement</h5>
+                        <p><jsp:getProperty name="association" property="recruitment"/></p>
+                    </c:when>
+                </c:choose>
             </c:when>
             <c:when test="${action.equals('members')}">
-                <table class="table">
-                    <tbody>
-                        <jsp:useBean id="members" type="java.util.List<model.User>" scope="request" />
-                        <c:forEach var="member" items="${members}">
-                            <tr>
-                                <td>${member.firstName}</td>
-                                <td>${member.lastName}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                <jsp:useBean id="members" type="java.util.List<model.User>" scope="request" />
+                <c:choose>
+                    <c:when test="${isAdmin}">
+                        <table class="table">
+                            <thead>
+                                <tr scope="col">
+                                    <th>Membres</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="member" items="${members}">
+                                    <tr>
+                                        <td>${member.firstName}</td>
+                                        <td>${member.lastName}</td>
+                                        <form method="post" action="association?name=${association.name}&action=del-member">
+                                            <td><button class="btn btn-sm btn-danger" name="memberCode" value="${member.code}">Supprimer</button></td>
+                                        </form>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                            <thead>
+                                <tr scope="col">
+                                    <th>Ajouter un membre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <form method="post" action="association?name=${association.name}&action=add-member">
+                                        <td><input class="form-control" type="text" name="fName" placeholder="Prénom"/></td>
+                                        <td><input class="form-control" type="text" name="lName" placeholder="Nom"/></td>
+                                        <td><button class="btn btn-sm btn-primary">Ajouter</button></td>
+                                    </form>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:when test="${!isAdmin}">
+                        <table class="table">
+                            <tbody>
+                                <c:forEach var="member" items="${members}">
+                                    <tr>
+                                        <td>${member.firstName}</td>
+                                        <td>${member.lastName}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                </c:choose>
             </c:when>
         </c:choose>
     </jsp:body>

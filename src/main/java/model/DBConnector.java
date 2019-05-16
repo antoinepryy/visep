@@ -309,8 +309,8 @@ public class DBConnector {
     public static void addVisepAdmin(String fName, String lName) {
         try {
             makeJDBCConnection();
-            String getQueryStatement = "UPDATE user SET is_admin = 1 WHERE first_name = ? and last_name = ?";
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            String updateQueryStatement = "UPDATE user SET is_admin = 1 WHERE first_name = ? and last_name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(updateQueryStatement);
             databasePrepareStat.setString(1, fName);
             databasePrepareStat.setString(2, lName);
             databasePrepareStat.executeUpdate();
@@ -322,8 +322,8 @@ public class DBConnector {
     public static void deleteVisepAdmin(int code) {
         try {
             makeJDBCConnection();
-            String getQueryStatement = "UPDATE user SET is_admin = 0 WHERE code = ?";
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            String updateQueryStatement = "UPDATE user SET is_admin = 0 WHERE code = ?";
+            databasePrepareStat = databaseConn.prepareStatement(updateQueryStatement);
             databasePrepareStat.setInt(1, code);
             databasePrepareStat.executeUpdate();
         } catch (SQLException e) {
@@ -346,8 +346,8 @@ public class DBConnector {
             else {
                 id = 0;
             }
-            getQueryStatement = "UPDATE association SET admin_id = ? WHERE name = ?";
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            String updateQueryStatement = "UPDATE association SET admin_id = ? WHERE name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(updateQueryStatement);
             databasePrepareStat.setInt(1, id);
             databasePrepareStat.setString(2, assoName);
             databasePrepareStat.executeUpdate();
@@ -359,8 +359,8 @@ public class DBConnector {
     public static void deleteAsso(String name) {
         try {
             makeJDBCConnection();
-            String getQueryStatement = "DELETE FROM association WHERE name = ?";
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            String deleteQueryStatement = "DELETE FROM association WHERE name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(deleteQueryStatement);
             databasePrepareStat.setString(1, name);
             databasePrepareStat.executeUpdate();
         } catch (SQLException e) {
@@ -375,9 +375,11 @@ public class DBConnector {
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
             databasePrepareStat.setString(1, nameAsso);
             ResultSet rs = databasePrepareStat.executeQuery();
-            rs.next();
-            Association association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), null);
-            return association;
+            if (rs.next()) {
+                Association association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), null);
+                return association;
+            }
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -387,19 +389,122 @@ public class DBConnector {
     public static List<User> getMembersAsso(String nameAsso) {
         try {
             makeJDBCConnection();
-            String getQueryStatement = "SELECT first_name, last_name FROM user INNER JOIN membership ON user.id = membership.user_id RIGHT JOIN association ON membership.association_id = association.id WHERE association.name = ?";
+            String getQueryStatement = "SELECT first_name, last_name, code FROM user INNER JOIN membership ON user.id = membership.user_id RIGHT JOIN association ON membership.association_id = association.id WHERE association.name = ?";
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
             databasePrepareStat.setString(1, nameAsso);
             ResultSet rs = databasePrepareStat.executeQuery();
             List<User> members = new ArrayList<>();
             while(rs.next()) {
-                User member = new User(rs.getString("first_name"), rs.getString("last_name"), null, null, null, null);
+                User member = new User(rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
                 members.add(member);
             }
             return members;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static Boolean isAssoMember(String assoName, int userCode) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT user.id FROM user INNER JOIN membership ON user.id = membership.user_id INNER JOIN association ON membership.association_id = association.id WHERE user.code = ? AND association.name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, userCode);
+            databasePrepareStat.setString(2,assoName);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Boolean isAssoAdmin(String assoName, int userCode) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT user.code FROM association INNER JOIN user ON association.admin_id = user.id WHERE association.name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1,assoName);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt("code") == userCode) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void updateAssoInfos(Association association) {
+        try {
+            makeJDBCConnection();
+            String updateQueryStatement = "UPDATE association SET description = ?, recruitment = ? WHERE name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(updateQueryStatement);
+            databasePrepareStat.setString(1,association.getDescription());
+            databasePrepareStat.setString(2,association.getRecruitment());
+            databasePrepareStat.setString(3,association.getName());
+            databasePrepareStat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteAssoMember(String assoName, int memberCode) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT id FROM user WHERE code = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, memberCode);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            rs.next();
+            int user_id = rs.getInt("id");
+            getQueryStatement = "SELECT id FROM association WHERE name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1, assoName);
+            rs = databasePrepareStat.executeQuery();
+            rs.next();
+            int association_id = rs.getInt("id");
+            String deleteQueryStatement = "DELETE FROM membership WHERE user_id = ? AND association_id = ?";
+            databasePrepareStat = databaseConn.prepareStatement(deleteQueryStatement);
+            databasePrepareStat.setInt(1, user_id);
+            databasePrepareStat.setInt(2, association_id);
+            databasePrepareStat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addAssoMember(String assoName, String fName, String lName) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT id FROM user WHERE first_name = ? AND last_name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1, fName);
+            databasePrepareStat.setString(2, lName);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            if (rs.next()) {
+                int user_id = rs.getInt("id");
+                getQueryStatement = "SELECT id FROM association WHERE name = ?";
+                databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+                databasePrepareStat.setString(1, assoName);
+                rs = databasePrepareStat.executeQuery();
+                rs.next();
+                int association_id = rs.getInt("id");
+                String insertQueryStatement = "INSERT INTO membership(user_id, association_id) VALUES (?,?)";
+                databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+                databasePrepareStat.setInt(1, user_id);
+                databasePrepareStat.setInt(2, association_id);
+                databasePrepareStat.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,11 +1,3 @@
-#pageheader{
-
-}
-
-#body{
-
-}
-
 .center-inside{
     position: absolute;
     width: 100vw;
@@ -22,8 +14,4 @@
     height: 70vh;
     transform: translate(-50%, -50%);
     background-color: white;
-
-
 }
-
-

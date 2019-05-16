@@ -102,6 +102,7 @@
                 </table>
             </c:when>
         </c:choose>
+
     </jsp:body>
 </t:layout-connected>
 <script src="static/js/admin.js"></script>

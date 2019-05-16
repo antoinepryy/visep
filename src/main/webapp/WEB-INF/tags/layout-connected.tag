@@ -42,7 +42,7 @@
             </ul>
         </div>
     </nav>
-    <div class="rounded bg-white" >
+    <div class="rounded bg-white overflow-auto">
         <jsp:doBody/>
 
     </div>
