@@ -19,6 +19,14 @@ public class Association implements Serializable {
         this.admin = admin;
     }
 
+    public Association(int id , String name, String description, String recruitment, User admin) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.recruitment = recruitment;
+        this.admin = admin;
+    }
+
     public int getId() {
         return id;
     }

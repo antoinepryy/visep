@@ -20,7 +20,6 @@ public class Login extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        out.println(User.isAuthenticationValidated(uname, pword));
 
 
 
