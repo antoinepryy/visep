@@ -5,20 +5,20 @@
 
 <t:layout-connected>
     <jsp:body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-left">
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav">
-                    <li class="nav-item" id="assos">
-                        <a class="nav-link" href="admin?action=assos">Assos</a>
-                    </li>
-                    <li class="nav-item" id="add-asso">
-                        <a class="nav-link" href="admin?action=add-asso">Nouvelle Asso</a>
-                    </li>
-                    <li class="nav-item" id="admins-visep">
-                        <a class="nav-link" href="admin?action=admins-visep">Admins Visep</a>
-                    </li>
-                </ul>
-            </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item" id="assos">
+                    <a class="nav-link" href="admin?action=assos">Assos</a>
+                </li>
+                <li class="nav-item" id="add-asso">
+                    <a class="nav-link" href="admin?action=add-asso">Nouvelle Asso</a>
+                </li>
+                <li class="nav-item" id="admins-visep">
+                    <a class="nav-link" href="admin?action=admins-visep">Admins Visep</a>
+                </li>
+            </ul>
+        </div>
         </nav>
         <jsp:useBean id="action" type="java.lang.String" scope="request" />
         <c:choose>
@@ -104,3 +104,4 @@
         </c:choose>
     </jsp:body>
 </t:layout-connected>
+<script src="static/js/admin.js"></script>

@@ -367,4 +367,39 @@ public class DBConnector {
             e.printStackTrace();
         }
     }
+
+    public static Association getInfosAsso(String nameAsso) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT * FROM association WHERE association.name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1, nameAsso);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            rs.next();
+            Association association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), null);
+            return association;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<User> getMembersAsso(String nameAsso) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT first_name, last_name FROM user INNER JOIN membership ON user.id = membership.user_id RIGHT JOIN association ON membership.association_id = association.id WHERE association.name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1, nameAsso);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<User> members = new ArrayList<>();
+            while(rs.next()) {
+                User member = new User(rs.getString("first_name"), rs.getString("last_name"), null, null, null, null);
+                members.add(member);
+            }
+            return members;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -22,6 +22,7 @@
                 <tr>
                     <td>${association.name}</td>
                     <td>${association.description}</td>
+                    <td><a href="association?name=${association.name}" class="badge badge-primary">Plus d'infos</a></td>
                 </tr>
             </c:forEach>
             </tbody>
