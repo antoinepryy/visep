@@ -7,11 +7,11 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String password;
-    private int code;
+    private Integer code;
     private String email;
     private Boolean isAdmin;
 
-    public User(String fName, String lName, String pw, int code, String mail, Boolean isAdmin){
+    public User(String fName, String lName, String pw, Integer code, String mail, Boolean isAdmin){
         this.firstName = fName;
         this.lastName = lName;
         this.password = pw;

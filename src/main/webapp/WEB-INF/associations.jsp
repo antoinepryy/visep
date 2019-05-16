@@ -20,8 +20,9 @@
             <jsp:useBean id="associations" type="java.util.List<model.Association>" scope="request"/>
             <c:forEach var="association" items="${associations}">
                 <tr>
-                    <td><a href="association?asso=${association.id}">${association.name}</a></td>
+                    <td>${association.name}</td>
                     <td>${association.description}</td>
+                    <td><a href="association?name=${association.name}" class="badge badge-primary">Plus d'infos</a></td>
                 </tr>
             </c:forEach>
             </tbody>

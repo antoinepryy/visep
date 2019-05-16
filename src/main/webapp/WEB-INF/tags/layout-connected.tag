@@ -22,17 +22,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item" id="home">
                     <a class="nav-link" href="home">Accueil</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="association">
                     <a class="nav-link" href="association">Les Assos'</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="messenger">
                     <a class="nav-link" href="messenger">Messagerie</a>
                 </li>
                 <% if (session.getAttribute("isAdmin").equals(true)) { %>
-                <li class="nav-item">
+                <li class="nav-item" id="admin">
                     <a class="nav-link" href="admin">Admin</a>
                 </li>
                 <% }; %>

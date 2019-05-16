@@ -3,6 +3,7 @@ package model;
 import sun.security.pkcs11.Secmod;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Association implements Serializable {
     private int id;
@@ -68,5 +69,13 @@ public class Association implements Serializable {
 
     public static void delete(String name) {
         DBConnector.deleteAsso(name);
+    }
+
+    public static Association getInfos(String nameAsso) {
+        return DBConnector.getInfosAsso(nameAsso);
+    }
+
+    public static List<User> getMembers(String nameAsso) {
+        return DBConnector.getMembersAsso(nameAsso);
     }
 }
