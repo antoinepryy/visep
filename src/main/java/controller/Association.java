@@ -12,13 +12,25 @@ import java.util.List;
 
 @WebServlet(name = "Association")
 public class Association extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String assoId = request.getParameter("asso");
+        if (assoId != null){
+            model.Association asso = DBConnector.getAssociationById(Integer.parseInt(assoId));
+            log(asso.getDescription());
+            request.setAttribute("association", asso);
+            request.getRequestDispatcher("/WEB-INF/association.jsp").forward(request, response);
+
+        }
+        else{
+            List<model.Association> associations = DBConnector.getAssociationsFromDB();
+            request.setAttribute("associations", associations);
+            request.getRequestDispatcher("/WEB-INF/associations.jsp").forward(request, response);
+
+        }
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<model.Association> associations = DBConnector.getAssociationsFromDB();
-        request.setAttribute("associations", associations);
-        request.getRequestDispatcher("/WEB-INF/page.jsp").forward(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }

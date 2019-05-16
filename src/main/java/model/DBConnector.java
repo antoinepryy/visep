@@ -12,17 +12,14 @@ public class DBConnector {
     public static void main(String[] argv) {
 
         try {
-            log("-------- Simple database Tutorial on how to make JDBC connection to MySQL DBConnector locally on macOS ------------");
             makeJDBCConnection();
 
-            log("\n---------- Adding company 'database LLC' to DBConnector ----------");
             //addDataUserToDB("Antoine", "Perry", "Pass", 12345, "antoine@gmail.com");
             //addDataUserToDB("Vincent", "Pescio", "Pass", 10857, "vincent@gmail.com");
             //addDataAssociationToDB("IsePorc","On adore manger comme des porcs","Uniquement des gros mangeurs wanted");
             //addDataEventToDB("Gros event IsePorc",8);
             User usr = new User("test", "test", "test", 1, "test", false);
             saveUser(usr);
-            log("\n---------- Let's get Data from DBConnector ----------");
             getUsersFromDB();
 
             databasePrepareStat.close();
@@ -71,7 +68,6 @@ public class DBConnector {
 
             // execute insert SQL statement
             databasePrepareStat.executeUpdate();
-            log(firstName + " added successfully");
         } catch (
 
                 SQLException e) {
@@ -92,7 +88,6 @@ public class DBConnector {
 
             // execute insert SQL statement
             databasePrepareStat.executeUpdate();
-            log(name + " added successfully");
         } catch (
 
                 SQLException e) {
@@ -116,7 +111,6 @@ public class DBConnector {
 
             // execute insert SQL statement
             databasePrepareStat.executeUpdate();
-            log("date" + " added successfully");
         } catch (
 
                 SQLException e) {
@@ -275,10 +269,31 @@ public class DBConnector {
             List<Association> associations = new ArrayList<>();
             while (rs.next()) {
                 User admin = new User(rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
-                Association association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), admin);
+                Association association = new Association(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), admin);
                 associations.add(association);
             }
             return associations;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Association getAssociationById(int id) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT * FROM association LEFT JOIN user ON association.admin_id = user.id WHERE association.id = ? ";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, id);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            Association association;
+            User admin;
+            rs.next();
+            admin = new User(rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
+            association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), admin);
+            return association;
+
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

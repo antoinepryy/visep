@@ -5,7 +5,7 @@
 
 <t:layout-connected>
     <jsp:attribute name="head">
-            <link rel="stylesheet" href="static/css/page.css">
+            <link rel="stylesheet" href="static/css/associations.css">
     </jsp:attribute>
     <jsp:body>
         <h3>Associations</h3>
@@ -20,7 +20,7 @@
             <jsp:useBean id="associations" type="java.util.List<model.Association>" scope="request"/>
             <c:forEach var="association" items="${associations}">
                 <tr>
-                    <td>${association.name}</td>
+                    <td><a href="association?asso=${association.id}">${association.name}</a></td>
                     <td>${association.description}</td>
                 </tr>
             </c:forEach>
