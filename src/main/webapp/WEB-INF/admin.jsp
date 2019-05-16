@@ -8,13 +8,13 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-left">
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
+                    <li class="nav-item" id="assos">
                         <a class="nav-link" href="admin?action=assos">Assos</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="add-asso">
                         <a class="nav-link" href="admin?action=add-asso">Nouvelle Asso</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="admins-visep">
                         <a class="nav-link" href="admin?action=admins-visep">Admins Visep</a>
                     </li>
                 </ul>
