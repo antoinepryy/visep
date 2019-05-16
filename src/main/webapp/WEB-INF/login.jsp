@@ -19,7 +19,7 @@
                     <input  class="form-control" name="password" type="password" placeholder="Mot de passe">
                 </div>
 
-                <a href="http://localhost:8080/visep_war_exploded/register">Pas de compte ? Inscrivez vous !</a>
+                <a href="register">Pas de compte ? Inscrivez vous !</a>
 
 
                 <button class="btn btn-primary">Se connecter</button>

@@ -9,9 +9,9 @@ public class User implements Serializable {
     private String password;
     private int code;
     private String email;
-    private boolean isAdmin;
+    private Boolean isAdmin;
 
-    public User(String fName, String lName, String pw, int code, String mail, boolean isAdmin){
+    public User(String fName, String lName, String pw, int code, String mail, Boolean isAdmin){
         this.firstName = fName;
         this.lastName = lName;
         this.password = pw;

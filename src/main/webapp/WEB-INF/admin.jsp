@@ -5,92 +5,102 @@
 
 <t:layout-connected>
     <jsp:body>
-        <div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-left">
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin?action=assos">Assos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin?action=admins-assos">Admins Assos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin?action=add-asso">Nouvelle Asso</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin?action=admins-visep">Admins Visep</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <br />
-            <jsp:useBean id="action" type="java.lang.String" scope="request" />
-            <c:choose>
-                <c:when test="${action.equals('assos')}">
-
-                </c:when>
-                <c:when test="${action.equals('admins-assos')}">
-
-                </c:when>
-                <c:when test="${action.equals('add-asso')}">
-                    <h2>Créer une association</h2>
-                    <br />
-                    <div class="container">
-                        <form method="post" action="admin?action=add-asso">
-                            <div class="form-group w-50 mx-auto">
-                                <input class="form-control" type="text" name="name"  required placeholder="Nom de l'association" />
-                            </div>
-                            <div class="form-group w-50 mx-auto">
-                                <input class="form-control" type="text" name="description"  required placeholder="Description de l'association" />
-                            </div>
-                            <div class="form-group w-50 mx-auto">
-                                <input class="form-control" type="text" name="recruitment"  required placeholder="Procédure de recrutement" />
-                            </div>
-                            <button class="btn btn-primary">Créer l'asso</button>
-                        </form>
-                    </div>
-                </c:when>
-                <c:when test="${action.equals('admins-visep')}">
-                    <h3>Admins Visep</h3>
-                    <div class="container">
-                    <jsp:useBean id="visepAdmins" type="java.util.List<model.User>" scope="request" />
-                    <c:forEach var="visepAdmin" items="${visepAdmins}">
-                        <div class="row">
-                            <div class="col">
-                                <p>${visepAdmin.firstName}</p>
-                            </div>
-                            <div class="col">
-                                <p>${visepAdmin.lastName}</p>
-                            </div>
-                            <div class="col">
-                                <p>${visepAdmin.code}</p>
-                            </div>
-                            <div class="col">
-                                <form method="post" action="admin?action=del-visep-admin">
-                                    <button class="btn btn-sm btn-danger" name="code" value="${visepAdmin.code}">Supprimer</button>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-left">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin?action=assos">Assos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin?action=add-asso">Nouvelle Asso</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin?action=admins-visep">Admins Visep</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <jsp:useBean id="action" type="java.lang.String" scope="request" />
+        <c:choose>
+            <c:when test="${action.equals('assos')}">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Asso</th>
+                            <th scope="col" colspan="3">Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <jsp:useBean id="associations" type="java.util.List<model.Association>" scope="request" />
+                        <c:forEach var="association" items="${associations}">
+                            <tr>
+                                <form method="post" action="admin?action=change-admin-asso">
+                                    <td>${association.name}</td>
+                                    <td><input class="form-control" type="text" name="fName" value="${association.admin.firstName}" /></td>
+                                    <td><input class="form-control" type="text" name="lName" value="${association.admin.lastName}" /></td>
+                                    <td><button class="btn btn-sm btn-primary" name="association" value="${association.name}">Changer l'admin</button></td>
                                 </form>
-                            </div>
+                                <form method="post" action="admin?action=del-asso">
+                                    <td><button class="btn btn-sm btn-danger" name="association" value="${association.name}">Supprimer l'asso</button></td>
+                                </form>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </c:when>
+            <c:when test="${action.equals('add-asso')}">
+                <br />
+                <h3>Créer une association</h3>
+                <br />
+                <div class="container">
+                    <form method="post" action="admin?action=add-asso">
+                        <div class="form-group w-50 mx-auto">
+                            <input class="form-control" type="text" name="name"  required placeholder="Nom de l'association" />
                         </div>
-                    </c:forEach>
-                        <br />
-                        <h3>Ajouter un nouvel admin Visep</h3>
+                        <div class="form-group w-50 mx-auto">
+                            <input class="form-control" type="text" name="description"  required placeholder="Description de l'association" />
+                        </div>
+                        <div class="form-group w-50 mx-auto">
+                            <input class="form-control" type="text" name="recruitment"  required placeholder="Procédure de recrutement" />
+                        </div>
+                        <button class="btn btn-primary">Créer l'asso</button>
+                    </form>
+                </div>
+            </c:when>
+            <c:when test="${action.equals('admins-visep')}">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="4">Admins Visep</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <jsp:useBean id="visepAdmins" type="java.util.List<model.User>" scope="request" />
+                        <c:forEach var="visepAdmin" items="${visepAdmins}">
+                            <tr>
+                                <td>${visepAdmin.firstName}</td>
+                                <td>${visepAdmin.lastName}</td>
+                                <td>${visepAdmin.code}</td>
+                                <form method="post" action="admin?action=del-visep-admin">
+                                    <td><button class="btn btn-sm btn-danger" name="code" value="${visepAdmin.code}">Supprimer</button></td>
+                                </form>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="4">Ajouter un nouvel admin Visep</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <form method="post" action="admin?action=add-visep-admin">
-                            <div class="row">
-                                <div class="col">
-                                    <input class="form-control" type="text" name="fName" placeholder="Prénom" required />
-                                </div>
-                                <div class="col">
-                                    <input class="form-control" type="text" name="lName" placeholder="Nom" required />
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-primary">Ajouter</button>
-                                </div>
-                            </div>
+                            <td><input class="form-control" type="text" name="fName" placeholder="Prénom" required /></td>
+                            <td><input class="form-control" type="text" name="lName" placeholder="Nom" required /></td>
+                            <td><button class="btn btn-primary">Ajouter</button></td>
                         </form>
-                    </div>
-                </c:when>
-            </c:choose>
-        </div>
+                    </tbody>
+                </table>
+            </c:when>
+        </c:choose>
     </jsp:body>
 </t:layout-connected>

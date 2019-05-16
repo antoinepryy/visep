@@ -8,20 +8,23 @@
             <link rel="stylesheet" href="static/css/page.css">
     </jsp:attribute>
     <jsp:body>
-        <h1>Associations</h1>
-        <div class="container">
-        <jsp:useBean id="associations" type="java.util.List<model.Association>" scope="request"/>
-        <c:forEach var="association" items="${associations}">
-                <div class="row">
-                    <div class="col-2">
-                        <h5>${association.name}</h5>
-                    </div>
-                    <div class="col-10">
-                        <p>${association.description}</p>
-                    </div>
-                </div>
-        </c:forEach>
-        </div>
+        <h3>Associations</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <jsp:useBean id="associations" type="java.util.List<model.Association>" scope="request"/>
+            <c:forEach var="association" items="${associations}">
+                <tr>
+                    <td>${association.name}</td>
+                    <td>${association.description}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </jsp:body>
 </t:layout-connected>
-

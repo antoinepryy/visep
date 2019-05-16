@@ -232,12 +232,13 @@ public class DBConnector {
     public static void saveAssociation(Association association){
 
             try {
-                String insertQueryStatement = "INSERT INTO association(name, description, recruitment)  VALUES (?,?,?)";
+                String insertQueryStatement = "INSERT INTO association(admin_id, name, description, recruitment)  VALUES (?,?,?,?)";
 
                 databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
-                databasePrepareStat.setString(1, association.getName());
-                databasePrepareStat.setString(2, association.getDescription());
-                databasePrepareStat.setString(3, association.getRecruitment());
+                databasePrepareStat.setInt(1, 0);
+                databasePrepareStat.setString(2, association.getName());
+                databasePrepareStat.setString(3, association.getDescription());
+                databasePrepareStat.setString(4, association.getRecruitment());
 
 
                 databasePrepareStat.executeUpdate();
@@ -268,12 +269,13 @@ public class DBConnector {
     public static List<Association> getAssociationsFromDB() {
         try {
             makeJDBCConnection();
-            String getQueryStatement = "SELECT * FROM association";
+            String getQueryStatement = "SELECT * FROM association LEFT JOIN user ON association.admin_id = user.id";
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
             ResultSet rs = databasePrepareStat.executeQuery();
             List<Association> associations = new ArrayList<>();
             while (rs.next()) {
-                Association association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"));
+                User admin = new User(rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
+                Association association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), admin);
                 associations.add(association);
             }
             return associations;
@@ -323,6 +325,43 @@ public class DBConnector {
             String getQueryStatement = "UPDATE user SET is_admin = 0 WHERE code = ?";
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
             databasePrepareStat.setInt(1, code);
+            databasePrepareStat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void changeAdminAsso(String assoName, String fName, String lName) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT id FROM user WHERE first_name = ? AND last_name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1, fName);
+            databasePrepareStat.setString(2, lName);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            int id;
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            else {
+                id = 0;
+            }
+            getQueryStatement = "UPDATE association SET admin_id = ? WHERE name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, id);
+            databasePrepareStat.setString(2, assoName);
+            databasePrepareStat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteAsso(String name) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "DELETE FROM association WHERE name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1, name);
             databasePrepareStat.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

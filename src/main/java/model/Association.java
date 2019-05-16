@@ -9,11 +9,13 @@ public class Association implements Serializable {
     private String name;
     private String description;
     private String recruitment;
+    private User admin;
 
-    public Association(String name, String description, String recruitment) {
+    public Association(String name, String description, String recruitment, User admin) {
         this.name = name;
         this.description = description;
         this.recruitment = recruitment;
+        this.admin = admin;
     }
 
     public int getId() {
@@ -44,7 +46,19 @@ public class Association implements Serializable {
         this.recruitment = recruitment;
     }
 
+    public User getAdmin() {
+        return this.admin;
+    }
+
     public void persist(){
         DBConnector.saveAssociation(this);
+    }
+
+    public static void changeAdmin(String assoName, String adminFirstName, String adminLastName) {
+        DBConnector.changeAdminAsso(assoName, adminFirstName, adminLastName);
+    }
+
+    public static void delete(String name) {
+        DBConnector.deleteAsso(name);
     }
 }
