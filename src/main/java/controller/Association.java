@@ -46,7 +46,7 @@ public class Association extends HttpServlet {
         if (asso == null) {
             List<model.Association> associations = DBConnector.getAssociationsFromDB();
             request.setAttribute("associations", associations);
-            request.getRequestDispatcher("/WEB-INF/page.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/associations.jsp").forward(request, response);
         }
         else {
             model.Association association = model.Association.getInfos(asso);
