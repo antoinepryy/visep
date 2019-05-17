@@ -1,9 +1,14 @@
 $(document).ready(function() {
     var search = location.search;
-    if (search.includes('members')) {
-        $('#members').addClass('active');
+    var tab = ['events', 'members'];
+    var a = 0;
+    for (var i = 0; i < tab.length; i++) {
+        if (search.includes(tab[i])) {
+            $('#'.concat(tab[i])).addClass('active');
+            a++;
+        }
     }
-    else {
+    if (a == 0) {
         $('#description').addClass('active');
     }
 });

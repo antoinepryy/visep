@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 16 mai 2019 à 12:40
+-- Généré le :  ven. 17 mai 2019 à 22:54
 -- Version du serveur :  10.1.39-MariaDB
 -- Version de PHP :  7.3.5
 
@@ -41,9 +41,9 @@ CREATE TABLE `association` (
 --
 
 INSERT INTO `association` (`id`, `admin_id`, `name`, `description`, `recruitment`) VALUES
-(1, 1, 'thsdg', 'qtdqtdwgf', 'qrgfdw'),
-(2, 4, 'IsePORC', 'Notre association propose des réductions afin de manger comme des porcs !!', 'Rejoins-nous uniquement si ton estomac est prêt !'),
-(5, 0, 'tsdfxtshgx', 'tshgtshgx', 'tsdytsdg');
+(2, 4, 'IsePORC', 'Notre association propose des gros macdo', 'Rejoins-nous uniquement si ton estomac est pret !!'),
+(10, 0, 'ofndjkld', 'llkdgnfjk', 'ldnf'),
+(14, 1, 'regfd', 'ergqdfw', 'gerq');
 
 -- --------------------------------------------------------
 
@@ -57,6 +57,15 @@ CREATE TABLE `event` (
   `description` text NOT NULL,
   `association_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `event`
+--
+
+INSERT INTO `event` (`id`, `date`, `description`, `association_id`) VALUES
+(1, '2019-05-14', 'Super event passé', 2),
+(2, '2019-05-21', 'Super event à venir 1', 2),
+(5, '2019-05-19', 'Gros event !!', 2);
 
 -- --------------------------------------------------------
 
@@ -81,6 +90,16 @@ CREATE TABLE `membership` (
   `user_id` int(11) NOT NULL,
   `association_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `membership`
+--
+
+INSERT INTO `membership` (`id`, `user_id`, `association_id`) VALUES
+(4, 4, 2),
+(13, 2, 2),
+(14, 1, 14),
+(15, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -117,7 +136,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `password`, `code`, `mail`, `is_admin`) VALUES
-(1, 'admin', 'admin', 'admin', 99999, 'admin@admin.com', 1),
+(1, 'admin', 'admin', 'admin', 99999, 'admin@admin.com', 0),
 (2, 'uyt', 'uyt', '4567', 1, 'xdfgb', 0),
 (3, 'ijh', 'ijn', 'ijn', 69, 'ijn', 0),
 (4, 'Valentin', 'Rouleau', 'oui', 10790, 'oirfs', 1);
@@ -130,6 +149,12 @@ INSERT INTO `user` (`id`, `first_name`, `last_name`, `password`, `code`, `mail`,
 -- Index pour la table `association`
 --
 ALTER TABLE `association`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `event`
+--
+ALTER TABLE `event`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -164,6 +189,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `association`
 --
 ALTER TABLE `association`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT pour la table `event`
+--
+ALTER TABLE `event`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
@@ -176,7 +207,7 @@ ALTER TABLE `follower`
 -- AUTO_INCREMENT pour la table `membership`
 --
 ALTER TABLE `membership`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `message`

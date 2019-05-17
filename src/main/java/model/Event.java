@@ -1,16 +1,20 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 public class Event implements Serializable {
     private int id;
     private Date dateEvent;
     private String description;
     private int associationId;
+    private Association association;
 
-    public Event(){
-
+    public Event(int id, Date dateEvent, String description, Association association) {
+        this.id = id;
+        this.dateEvent = dateEvent;
+        this.description = description;
+        this.association = association;
     }
 
     public int getId() {
@@ -39,5 +43,13 @@ public class Event implements Serializable {
 
     public void setAssociationId(int associationId) {
         this.associationId = associationId;
+    }
+
+    public static void delete(int id) {
+        DBConnector.deleteEvent(id);
+    }
+
+    public static void create(String assoName, Date date, String description) {
+        DBConnector.createEvent(assoName, date, description);
     }
 }

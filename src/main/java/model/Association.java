@@ -90,4 +90,8 @@ public class Association implements Serializable {
     public void updateInfos() {
         DBConnector.updateAssoInfos(this);
     }
+
+    public static List<Event> getEvents(String assoName) {
+        return DBConnector.getEventsAsso(assoName);
+    }
 }

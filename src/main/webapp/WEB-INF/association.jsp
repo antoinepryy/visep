@@ -16,6 +16,9 @@
                     <li class="nav-item" id="description">
                         <a class="nav-link" href="association?name=${association.name}&action=description">Description</a>
                     </li>
+                    <li class="nav-item" id="events">
+                        <a class="nav-link" href="association?name=${association.name}&action=events">Events</a>
+                    </li>
                     <li class="nav-item" id="members">
                         <a class="nav-link" href="association?name=${association.name}&action=members">Membres</a>
                     </li>
@@ -93,6 +96,57 @@
                                         <td>${member.lastName}</td>
                                     </tr>
                                 </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                </c:choose>
+            </c:when>
+            <c:when test="${action.equals('events')}">
+                <jsp:useBean id="events" type="java.util.List<model.Event>" scope="request" />
+                <c:choose>
+                    <c:when test="${isAdmin}">
+                        <table class="table">
+                            <thead>
+                            <tr scope="col">
+                                <th>Events</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="event" items="${events}">
+                                <tr>
+                                    <td>${event.dateEvent}</td>
+                                    <td>${event.description}</td>
+                                    <form method="post" action="association?name=${association.name}&action=del-event">
+                                        <td><button class="btn btn-sm btn-danger" name="event_id" value="${event.id}">Supprimer</button></td>
+                                    </form>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                            <thead>
+                            <tr scope="col">
+                                <th>Créer un event</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <form method="post" action="association?name=${association.name}&action=add-event">
+                                    <td><input class="form-control" type="date" name="date" placeholder="Date" required/></td>
+                                    <td><input class="form-control" type="text" name="description" placeholder="Description" required/></td>
+                                    <td><button class="btn btn-sm btn-primary">Créer</button></td>
+                                </form>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:when test="${!isAdmin}">
+                        <table class="table">
+                            <tbody>
+                            <c:forEach var="event" items="${events}">
+                                <tr>
+                                    <td>${event.dateEvent}</td>
+                                    <td>${event.description}</td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </c:when>

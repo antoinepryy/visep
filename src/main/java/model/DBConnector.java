@@ -471,21 +471,42 @@ public class DBConnector {
         }
     }
 
-    public static void deleteAssoMember(String assoName, int memberCode) {
+    public static Integer getUserId(int code) {
         try {
             makeJDBCConnection();
             String getQueryStatement = "SELECT id FROM user WHERE code = ?";
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-            databasePrepareStat.setInt(1, memberCode);
+            databasePrepareStat.setInt(1, code);
             ResultSet rs = databasePrepareStat.executeQuery();
             rs.next();
             int user_id = rs.getInt("id");
-            getQueryStatement = "SELECT id FROM association WHERE name = ?";
+            return user_id;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Integer getAssociationId(String assoName) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT id FROM association WHERE name = ?";
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
             databasePrepareStat.setString(1, assoName);
-            rs = databasePrepareStat.executeQuery();
+            ResultSet rs = databasePrepareStat.executeQuery();
             rs.next();
             int association_id = rs.getInt("id");
+            return association_id;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void deleteAssoMember(String assoName, int memberCode) {
+        try {
+            int user_id = getUserId(memberCode);
+            int association_id = getAssociationId(assoName);
             String deleteQueryStatement = "DELETE FROM membership WHERE user_id = ? AND association_id = ?";
             databasePrepareStat = databaseConn.prepareStatement(deleteQueryStatement);
             databasePrepareStat.setInt(1, user_id);
@@ -506,18 +527,60 @@ public class DBConnector {
             ResultSet rs = databasePrepareStat.executeQuery();
             if (rs.next()) {
                 int user_id = rs.getInt("id");
-                getQueryStatement = "SELECT id FROM association WHERE name = ?";
-                databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-                databasePrepareStat.setString(1, assoName);
-                rs = databasePrepareStat.executeQuery();
-                rs.next();
-                int association_id = rs.getInt("id");
-                String insertQueryStatement = "INSERT INTO membership(user_id, association_id) VALUES (?,?)";
+                int association_id = getAssociationId(assoName);
+                String insertQueryStatement = "INSERT INTO membership (user_id, association_id) VALUES (?,?)";
                 databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
                 databasePrepareStat.setInt(1, user_id);
                 databasePrepareStat.setInt(2, association_id);
                 databasePrepareStat.executeUpdate();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<Event> getEventsAsso(String assoName) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT event.id, date, event.description FROM event INNER JOIN association ON event.association_id = association.id WHERE association.name = ? AND event.date >= CURRENT_DATE ORDER BY event.date";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1, assoName);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<Event> events = new ArrayList<>();
+            while (rs.next()) {
+                Association association = new Association(assoName, null, null, null);
+                Event event = new Event(rs.getInt("id"), rs.getDate("date"), rs.getString("description"), association);
+                events.add(event);
+            }
+            return events;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void deleteEvent(int id) {
+        try {
+            makeJDBCConnection();
+            String deleteQueryStatement = "DELETE FROM event WHERE id = ?";
+            databasePrepareStat = databaseConn.prepareStatement(deleteQueryStatement);
+            databasePrepareStat.setInt(1, id);
+            databasePrepareStat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void createEvent(String assoName, Date date, String description) {
+        try {
+            makeJDBCConnection();
+            int association_id = getAssociationId(assoName);
+            String insertQueryStatement = "INSERT INTO event (date, description, association_id) VALUES (?,?,?)";
+            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+            databasePrepareStat.setDate(1, date);
+            databasePrepareStat.setString(2, description);
+            databasePrepareStat.setInt(3, association_id);
+            databasePrepareStat.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package controller;
 
 import model.DBConnector;
+import model.Event;
 import model.Membership;
 import model.User;
 
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "Association")
@@ -38,6 +42,27 @@ public class Association extends HttpServlet {
             Membership.addMember(name, fName, lName);
             response.sendRedirect("association?name=" + name + "&action=members");
         }
+        else if (action.equals("del-event")) {
+            String name = request.getParameter("name");
+            int event_id = Integer.parseInt(request.getParameter("event_id"));
+            Event.delete(event_id);
+            response.sendRedirect("association?name=" + name + "&action=events");
+        }
+        else if (action.equals("add-event")) {
+            String name = request.getParameter("name");
+            java.util.Date date;
+            java.sql.Date dateSQL;
+            try {
+                date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("date"));
+                dateSQL = new java.sql.Date(date.getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+                dateSQL = null;
+            }
+            String description = request.getParameter("description");
+            Event.create(name, dateSQL, description);
+            response.sendRedirect("association?name=" + name + "&action=events");
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,6 +86,10 @@ public class Association extends HttpServlet {
                 else if (action.equals("members")) {
                     List<User> members = model.Association.getMembers(asso);
                     request.setAttribute("members", members);
+                }
+                else if (action.equals("events")) {
+                    List<Event> events = model.Association.getEvents(asso);
+                    request.setAttribute("events", events);
                 }
                 Boolean isAdmin = association.isAdmin(Integer.parseInt((String) session.getAttribute("user")));
                 request.setAttribute("isAdmin", isAdmin);
