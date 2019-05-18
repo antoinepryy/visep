@@ -1,5 +1,7 @@
 package model;
 
+import org.w3c.dom.stylesheets.MediaList;
+
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
@@ -118,7 +120,28 @@ public class DBConnector {
         }
     }
 
-    private static void getUsersFromDB() {
+    public static List<User> getAllUsers(){
+        try {
+            String getQueryStatement = "SELECT * FROM user";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<User> lst = new ArrayList<>();
+            while (rs.next()) {
+                lst.add(new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null));
+
+            }
+
+            return lst;
+
+        } catch (
+
+                SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void getUsersFromDB() {
 
         try {
             // MySQL Select Query Tutorial
@@ -583,6 +606,43 @@ public class DBConnector {
             databasePrepareStat.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static List<List<Message>> getAllMessagesReceivedByUser(int id){
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT * FROM message WHERE id_recipient = ? OR id_sender = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, id);
+            databasePrepareStat.setInt(2, id);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<List<Message>> messages = new ArrayList<>();
+            while (rs.next()) {
+                //Association association = new Association(assoName, null, null, null);
+                //messages.add()
+
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void sendMessage(int from, int to, String msg){
+        try {
+            makeJDBCConnection();
+            String insertQueryStatement = "INSERT INTO message(id_sender, id_recipient, text) VALUE (?, ? ,?)";
+            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+            databasePrepareStat.setInt(1, from);
+            databasePrepareStat.setInt(2, to);
+            databasePrepareStat.setString(3, msg);
+            databasePrepareStat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
         }
     }
 }
