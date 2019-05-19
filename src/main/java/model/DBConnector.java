@@ -609,7 +609,7 @@ public class DBConnector {
         }
     }
 
-    public static List<List<Message>> getAllMessagesReceivedByUser(int id){
+    public static List<Message> getAllMessagesReceivedByUser(int id){
         try {
             makeJDBCConnection();
             String getQueryStatement = "SELECT * FROM message WHERE id_recipient = ? OR id_sender = ?";
@@ -617,13 +617,13 @@ public class DBConnector {
             databasePrepareStat.setInt(1, id);
             databasePrepareStat.setInt(2, id);
             ResultSet rs = databasePrepareStat.executeQuery();
-            List<List<Message>> messages = new ArrayList<>();
+            List<Message> messages = new ArrayList<>();
             while (rs.next()) {
-                //Association association = new Association(assoName, null, null, null);
-                //messages.add()
+                Message msg = new Message(rs.getInt("id_sender"), rs.getInt("id_recipient"), rs.getDate("date"), rs.getString("text"));
+                messages.add(msg);
 
             }
-            return null;
+            return messages;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -645,4 +645,5 @@ public class DBConnector {
             System.out.println(e);
         }
     }
+
 }

@@ -11,7 +11,11 @@ public class Message implements Serializable {
     private Date msgDate;
     private String text;
 
-    public Message() {
+    public Message(int sender, int recipient, Date date, String text) {
+        this.senderId = sender;
+        this.recipientId = recipient;
+        this.msgDate = date;
+        this.text = text;
     }
 
     public int getId() {

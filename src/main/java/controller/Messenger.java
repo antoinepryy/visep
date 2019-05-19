@@ -1,6 +1,7 @@
 package controller;
 
 import model.DBConnector;
+import model.Message;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -23,7 +24,7 @@ public class Messenger extends HttpServlet {
         String dest = request.getParameter("user-select");
         String msg = request.getParameter("text");
 
-        DBConnector.sendMessage(userId,Integer.parseInt(dest),msg);
+        DBConnector.sendMessage(DBConnector.getUserId(userId),Integer.parseInt(dest),msg);
         out.println(userId);
         out.println(dest);
         out.println(msg);
@@ -40,6 +41,12 @@ public class Messenger extends HttpServlet {
                 request.setAttribute("users", listUser);
 
             case "list":
+                HttpSession session=request.getSession();
+                int userId = Integer.parseInt(String.valueOf(session.getAttribute("user")));
+
+                List<Message> listMsg = DBConnector.getAllMessagesReceivedByUser(DBConnector.getUserId(userId));
+                request.setAttribute("messages", listMsg);
+
                 break;
             case "read":
                 break;
