@@ -5,7 +5,7 @@
     <jsp:body>
         <div>
             <p>Hi I'm the heart of the message</p>
-
+            <% for
         </div>
     </jsp:body>
 </t:layout-connected>
