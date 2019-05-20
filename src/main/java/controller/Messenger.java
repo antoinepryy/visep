@@ -64,7 +64,6 @@ public class Messenger extends HttpServlet {
                         }
 
                         for (int j = 0 ; j<listToSend.size(); j++){
-$
                             if (listToSend.get(j).get(0).getSenderId() == messageSubject || listToSend.get(j).get(0).getRecipientId() == messageSubject){
 
                                 listToSend.get(j).add(listMsg.get(i));
