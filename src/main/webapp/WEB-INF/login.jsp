@@ -13,13 +13,13 @@
 
             <form method="post" action="login">
                 <div class="form-group w-50 mx-auto">
-                    <input class="form-control" type="text" name="username"  placeholder="Identifiant">
+                    <input class="form-control" type="number" name="username" placeholder="Identifiant" required>
                 </div>
                 <div class="form-group w-50 mx-auto">
                     <input  class="form-control" name="password" type="password" placeholder="Mot de passe">
                 </div>
 
-                <a href="http://localhost:8080/visep_war_exploded/register">Pas de compte ? Inscrivez vous !</a>
+                <a href="register">Pas de compte ? Inscrivez vous !</a>
 
 
                 <button class="btn btn-primary">Se connecter</button>

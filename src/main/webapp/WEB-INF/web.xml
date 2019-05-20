@@ -99,6 +99,14 @@
         <filter-name>LgFilter</filter-name>
         <url-pattern>/association</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>LgFilter</filter-name>
+        <url-pattern>/register</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LgFilter</filter-name>
+        <url-pattern>/login</url-pattern>
+    </filter-mapping>
 
     <welcome-file-list>
         <welcome-file>home</welcome-file>

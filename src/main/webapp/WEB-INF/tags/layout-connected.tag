@@ -12,30 +12,37 @@
     <jsp:invoke fragment="head"/>
 
 </head>
-<body id="particles-js" style="background-color: red">
+<body id="particles-js" style="background-color: #eceff1">
 
 <div id="body" class="center-inside">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" >
-        <a class="navbar-brand" href="#">VISEP</a>
+        <a class="navbar-brand" href="home">VISEP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item" id="home">
                     <a class="nav-link" href="home">Accueil</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="association">
                     <a class="nav-link" href="association">Les Assos'</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="messenger">
                     <a class="nav-link" href="messenger">Messagerie</a>
                 </li>
-
+                <% if (session.getAttribute("isAdmin").equals(true)) { %>
+                <li class="nav-item" id="admin">
+                    <a class="nav-link" href="admin">Admin</a>
+                </li>
+                <% }; %>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout">Déconnexion</a>
+                </li>
             </ul>
         </div>
     </nav>
-    <div class="rounded">
+    <div class="rounded bg-white overflow-auto">
         <jsp:doBody/>
 
     </div>

@@ -30,4 +30,16 @@ public class Membership implements Serializable {
     public void setAssociationId(int associationId) {
         this.associationId = associationId;
     }
+
+    public static void deleteMember(String assoName, int memberCode) {
+        DBConnector.deleteAssoMember(assoName, memberCode);
+    }
+
+    public static void addMember(String assoName, String fName, String lName) {
+        DBConnector.addAssoMember(assoName, fName, lName);
+    }
+
+    public static Boolean isMember(String assoName, String fName, String lName) {
+        return DBConnector.isMemberOfAsso(assoName, fName, lName);
+    }
 }

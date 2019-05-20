@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 @WebServlet(name = "Login")
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
 
@@ -27,7 +28,7 @@ public class Register extends HttpServlet {
         response.setContentType("text/html");
 
         if ((null != fName) && (lName != null) && (pw != null) && (cPw != null) && (mail != null)){
-            User usr = new User(fName, lName, pw, code, mail);
+            User usr = new User(fName, lName, pw, code, mail, false);
 
 
             usr.persist();
