@@ -20,6 +20,7 @@ import java.util.List;
 @WebServlet(name = "Association")
 public class Association extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
         if (action.equals("change-description")) {
             String name = request.getParameter("name");

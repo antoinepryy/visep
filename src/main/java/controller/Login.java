@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 @WebServlet(name = "Login")
 public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String uname=request.getParameter("username");
         String pword=request.getParameter("password");
         response.setContentType("text/html");
