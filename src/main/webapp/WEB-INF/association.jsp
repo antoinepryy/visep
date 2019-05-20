@@ -130,7 +130,7 @@
                             <tbody>
                             <tr>
                                 <form method="post" action="association?name=${association.name}&action=add-event">
-                                    <td><input class="form-control" type="date" name="date" placeholder="Date" required/></td>
+                                    <td><input id="date" class="form-control" type="date" name="date" placeholder="Date" required/></td>
                                     <td><input class="form-control" type="text" name="description" placeholder="Description" required/></td>
                                     <td><button class="btn btn-sm btn-primary">Créer</button></td>
                                 </form>

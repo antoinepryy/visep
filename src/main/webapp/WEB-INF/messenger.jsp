@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page isELIgnored="false" %>
 
 <t:layout-connected>
@@ -24,16 +25,30 @@
         <br/>
         <c:choose>
             <c:when test="${action.equals('send')}">
+<<<<<<< HEAD
                 <jsp:useBean id="users" type="java.util.List<model.User>" scope="request"/>
+=======
+                <jsp:useBean id="users" type="java.util.List<model.User>" scope="request" />
+                <jsp:useBean id="user" type="java.lang.String" scope="session" />
+                <fmt:parseNumber var="user_id" value="${user}" integerOnly="true" />
+>>>>>>> a5362a55be6045100091a11bfb3d01d0a2d9a9c8
 
                 <form method="post" action="messenger">
                     <h5>Utilisateur</h5>
                     <div class="form-group w-50 mx-auto">
                         <select id="user-select" name="user-select">
 
+<<<<<<< HEAD
                             <c:forEach var="user" items="${users}">
                                 <option value="${user.id}">${user.firstName} ${user.lastName}</option>
                             </c:forEach>
+=======
+                        <c:forEach var="user" items="${users}">
+                            <c:if test="${user.code != user_id}">
+                                <option value="${user.id}">${user.firstName} ${user.lastName}</option>
+                            </c:if>
+                        </c:forEach>
+>>>>>>> a5362a55be6045100091a11bfb3d01d0a2d9a9c8
                         </select>
 
                     </div>

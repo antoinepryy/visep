@@ -18,6 +18,7 @@ import java.util.List;
 @WebServlet(name = "Messenger")
 public class Messenger extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HttpSession session=request.getSession();
         PrintWriter out = response.getWriter();
         int userId = Integer.parseInt(String.valueOf(session.getAttribute("user")));

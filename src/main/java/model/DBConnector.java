@@ -215,27 +215,6 @@ public class DBConnector {
         }
     }
 
-    public static Association getAssociationById(int id) {
-        try {
-            makeJDBCConnection();
-            String getQueryStatement = "SELECT * FROM association LEFT JOIN user ON association.admin_id = user.id WHERE association.id = ? ";
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-            databasePrepareStat.setInt(1, id);
-            ResultSet rs = databasePrepareStat.executeQuery();
-            Association association;
-            User admin;
-            rs.next();
-            admin = new User(rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
-            association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), admin);
-            return association;
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static List<User> getVisepAdmins() {
         try {
             makeJDBCConnection();
@@ -356,24 +335,6 @@ public class DBConnector {
         }
     }
 
-    public static Boolean isAssoMember(String assoName, int userCode) {
-        try {
-            makeJDBCConnection();
-            String getQueryStatement = "SELECT user.id FROM user INNER JOIN membership ON user.id = membership.user_id INNER JOIN association ON membership.association_id = association.id WHERE user.code = ? AND association.name = ?";
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-            databasePrepareStat.setInt(1, userCode);
-            databasePrepareStat.setString(2,assoName);
-            ResultSet rs = databasePrepareStat.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-            return false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static Boolean isAssoAdmin(String assoName, int userCode) {
         try {
             makeJDBCConnection();
@@ -423,6 +384,25 @@ public class DBConnector {
         }
     }
 
+    public static Integer getUserId(String fName, String lName) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT id FROM user WHERE first_name = ? AND last_name = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setString(1, fName);
+            databasePrepareStat.setString(2, lName);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            if (rs.next()) {
+                int user_id = rs.getInt("id");
+                return user_id;
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static Integer getAssociationId(String assoName) {
         try {
             makeJDBCConnection();
@@ -456,13 +436,8 @@ public class DBConnector {
     public static void addAssoMember(String assoName, String fName, String lName) {
         try {
             makeJDBCConnection();
-            String getQueryStatement = "SELECT id FROM user WHERE first_name = ? AND last_name = ?";
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-            databasePrepareStat.setString(1, fName);
-            databasePrepareStat.setString(2, lName);
-            ResultSet rs = databasePrepareStat.executeQuery();
-            if (rs.next()) {
-                int user_id = rs.getInt("id");
+            Integer user_id = getUserId(fName, lName);
+            if (user_id != null) {
                 int association_id = getAssociationId(assoName);
                 String insertQueryStatement = "INSERT INTO membership (user_id, association_id) VALUES (?,?)";
                 databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
@@ -556,6 +531,27 @@ public class DBConnector {
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e);
+        }
+    }
+
+    public static Boolean isMemberOfAsso(String assoName, String fName, String lName) {
+        try {
+            Integer user_id = getUserId(fName, lName);
+            if (user_id != null) {
+                int association_id = getAssociationId(assoName);
+                String getQueryStatement = "SELECT id FROM membership WHERE user_id = ? AND association_id = ?";
+                databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+                databasePrepareStat.setInt(1, user_id);
+                databasePrepareStat.setInt(2, association_id);
+                ResultSet rs = databasePrepareStat.executeQuery();
+                if (rs.next()) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
