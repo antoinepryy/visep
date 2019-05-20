@@ -302,27 +302,6 @@ public class DBConnector {
         }
     }
 
-    public static Association getAssociationById(int id) {
-        try {
-            makeJDBCConnection();
-            String getQueryStatement = "SELECT * FROM association LEFT JOIN user ON association.admin_id = user.id WHERE association.id = ? ";
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-            databasePrepareStat.setInt(1, id);
-            ResultSet rs = databasePrepareStat.executeQuery();
-            Association association;
-            User admin;
-            rs.next();
-            admin = new User(rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
-            association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), admin);
-            return association;
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static List<User> getVisepAdmins() {
         try {
             makeJDBCConnection();

@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page isELIgnored="false" %>
 
 <t:layout-connected>
@@ -25,6 +26,8 @@
         <c:choose>
             <c:when test="${action.equals('send')}">
                 <jsp:useBean id="users" type="java.util.List<model.User>" scope="request" />
+                <jsp:useBean id="user" type="java.lang.String" scope="session" />
+                <fmt:parseNumber var="user_id" value="${user}" integerOnly="true" />
 
                 <form method="post" action="messenger">
                     <h5>Utilisateur</h5>
@@ -32,7 +35,9 @@
                         <select id="user-select" name="user-select">
 
                         <c:forEach var="user" items="${users}">
-                            <option value="${user.id}">${user.firstName} ${user.lastName}</option>
+                            <c:if test="${user.code != user_id}">
+                                <option value="${user.id}">${user.firstName} ${user.lastName}</option>
+                            </c:if>
                         </c:forEach>
                         </select>
 
