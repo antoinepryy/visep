@@ -44,7 +44,7 @@ public class DBConnector {
 
         try {
             // DriverManager: The basic service for managing a set of JDBC drivers.
-            databaseConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/visep", "root", "");
+            databaseConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/visep?useUnicode=yes&characterEncoding=utf8", "root", "");
             if (databaseConn != null) {
             } else {
             }
@@ -612,14 +612,14 @@ public class DBConnector {
     public static List<Message> getAllMessagesReceivedByUser(int id){
         try {
             makeJDBCConnection();
-            String getQueryStatement = "SELECT * FROM message WHERE id_recipient = ? OR id_sender = ?";
+            String getQueryStatement = "SELECT * FROM message WHERE id_recipient = ? OR id_sender = ? ORDER BY date DESC";
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
             databasePrepareStat.setInt(1, id);
             databasePrepareStat.setInt(2, id);
             ResultSet rs = databasePrepareStat.executeQuery();
             List<Message> messages = new ArrayList<>();
             while (rs.next()) {
-                Message msg = new Message(rs.getInt("id_sender"), rs.getInt("id_recipient"), rs.getDate("date"), rs.getString("text"));
+                Message msg = new Message(rs.getInt("id"),rs.getInt("id_sender"), rs.getInt("id_recipient"), rs.getDate("date"), rs.getString("text"));
                 messages.add(msg);
 
             }

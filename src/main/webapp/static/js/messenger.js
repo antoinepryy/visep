@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var search = location.search;
     var tab = ['send', 'list'];
     var a = 0;
