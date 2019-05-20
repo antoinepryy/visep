@@ -28,7 +28,7 @@ public class Messenger extends HttpServlet {
         out.println(userId);
         out.println(dest);
         out.println(msg);
-        request.getRequestDispatcher("/WEB-INF/messenger.jsp").forward(request, response);
+        response.sendRedirect("messenger?action=list");
 
 
     }
