@@ -29,7 +29,7 @@
                     <a class="nav-link" href="association">Les Assos'</a>
                 </li>
                 <li class="nav-item" id="messenger">
-                    <a class="nav-link" href="messenger?action=list">Messagerie</a>
+                    <a class="nav-link" href="messenger">Messagerie</a>
                 </li>
                 <% if (session.getAttribute("isAdmin").equals(true)) { %>
                 <li class="nav-item" id="admin">

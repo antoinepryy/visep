@@ -26,6 +26,7 @@ public class Message implements Serializable {
         this.text = text;
     }
 
+
     public int getId() {
         return id;
     }

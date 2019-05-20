@@ -36,6 +36,7 @@ public class Messenger extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        if (action == null){action = "list";}
         switch (action){
             case "send":
                 List<User> listUser = DBConnector.getAllUsers();
@@ -49,24 +50,38 @@ public class Messenger extends HttpServlet {
                 List<Message> listMsg = DBConnector.getAllMessagesReceivedByUser(userId);
                 if (listMsg != null){
                     List<List<Message>> listToSend = new ArrayList<>();
-                    for(int i = 0; i<listMsg.size(); i++){
-                        int messageSubject;
+                    listToSend.add(new ArrayList<Message>());
+                    listToSend.get(0).add(listMsg.get(0));
+                    for(int i = 1; i<listMsg.size(); i++){
+
+                        int messageSubject = -1;
                         if (listMsg.get(i).getSenderId() == userId){
                             messageSubject = listMsg.get(i).getRecipientId();
                         }
                         else if (listMsg.get(i).getRecipientId() == userId){
                             messageSubject = listMsg.get(i).getSenderId();
                         }
+
                         for (int j = 0 ; j<listToSend.size(); j++){
+$
+                            if (listToSend.get(j).get(0).getSenderId() == messageSubject || listToSend.get(j).get(0).getRecipientId() == messageSubject){
 
-
-                            if (listToSend.get(j).get(0).getSenderId() == userId){
-
+                                listToSend.get(j).add(listMsg.get(i));
+                                break;
                             }
-                            else if (listToSend.get(j).get(0).getRecipientId() == userId){
-
+                            else if(j == listToSend.size()-1){
+                                List<Message> newRow = new ArrayList<>();
+                                newRow.add(listMsg.get(i));
+                                listToSend.add(newRow);
+                                break;
+                            }
+                            else{
                             }
                         }
+                    }
+                    System.out.println("size : " + listToSend.size());
+                    for (int l = 0; l<listToSend.size(); l++){
+                        System.out.println(listToSend.get(l).size());
                     }
                     request.setAttribute("messages", listToSend);
                 }

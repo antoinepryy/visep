@@ -11,27 +11,7 @@ public class DBConnector {
     static Connection databaseConn = null;
     static PreparedStatement databasePrepareStat = null;
 
-    public static void main(String[] argv) {
 
-        try {
-            makeJDBCConnection();
-
-            //addDataUserToDB("Antoine", "Perry", "Pass", 12345, "antoine@gmail.com");
-            //addDataUserToDB("Vincent", "Pescio", "Pass", 10857, "vincent@gmail.com");
-            //addDataAssociationToDB("IsePorc","On adore manger comme des porcs","Uniquement des gros mangeurs wanted");
-            //addDataEventToDB("Gros event IsePorc",8);
-            User usr = new User("test", "test", "test", 1, "test", false);
-            saveUser(usr);
-            getUsersFromDB();
-
-            databasePrepareStat.close();
-            databaseConn.close(); // connection close
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-    }
 
     private static void makeJDBCConnection() {
 
@@ -43,7 +23,6 @@ public class DBConnector {
         }
 
         try {
-            // DriverManager: The basic service for managing a set of JDBC drivers.
             databaseConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/visep?useUnicode=yes&characterEncoding=utf8", "root", "");
             if (databaseConn != null) {
             } else {
@@ -55,70 +34,6 @@ public class DBConnector {
 
     }
 
-    public static void addDataUserToDB(String firstName, String lastName, String password, int code, String mail) {
-
-        try {
-            String insertQueryStatement = "INSERT  INTO  user(first_name,last_name,password,code,mail)  VALUES  (?,?,?,?,?)";
-
-            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
-            databasePrepareStat.setString(1, firstName);
-            databasePrepareStat.setString(2, lastName);
-            databasePrepareStat.setString(3, password);
-            databasePrepareStat.setInt(4, code);
-            databasePrepareStat.setString(5, mail);
-            
-
-            // execute insert SQL statement
-            databasePrepareStat.executeUpdate();
-        } catch (
-
-                SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void addDataAssociationToDB(String name, String description, String recruitment) {
-
-        try {
-            String insertQueryStatement = "INSERT  INTO  association(name,description,recruitment)  VALUES  (?,?,?)";
-
-            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
-            databasePrepareStat.setString(1, name);
-            databasePrepareStat.setString(2, description);
-            databasePrepareStat.setString(3, recruitment);
-
-
-            // execute insert SQL statement
-            databasePrepareStat.executeUpdate();
-        } catch (
-
-                SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void addDataEventToDB(String description, int associationId) {
-
-        try {
-            String insertQueryStatement = "INSERT  INTO  event(date_event,description,association_id)  VALUES  (?,?,?)";
-            int year = new java.util.Date().getYear();
-            int month = new java.util.Date().getMonth();
-            int day = new java.util.Date().getDay();
-            java.sql.Date today = new Date(year, month, day);
-            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
-            databasePrepareStat.setDate(1, today);
-            databasePrepareStat.setString(2, description);
-            databasePrepareStat.setInt(3, associationId);
-
-
-            // execute insert SQL statement
-            databasePrepareStat.executeUpdate();
-        } catch (
-
-                SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static List<User> getAllUsers(){
         try {
@@ -226,11 +141,9 @@ public class DBConnector {
             ResultSet rs = databasePrepareStat.executeQuery();
 
             // Let's iterate through the java ResultSet
-            System.out.println(rs);
             String cd = null;
             while (rs.next()){
                 cd = rs.getString("code");
-                System.out.println(rs.getString("password"));
             }
             return cd;
 
