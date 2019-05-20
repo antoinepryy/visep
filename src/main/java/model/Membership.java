@@ -38,4 +38,8 @@ public class Membership implements Serializable {
     public static void addMember(String assoName, String fName, String lName) {
         DBConnector.addAssoMember(assoName, fName, lName);
     }
+
+    public static Boolean isMember(String assoName, String fName, String lName) {
+        return DBConnector.isMemberOfAsso(assoName, fName, lName);
+    }
 }

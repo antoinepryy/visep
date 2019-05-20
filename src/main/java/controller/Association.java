@@ -40,7 +40,9 @@ public class Association extends HttpServlet {
             String name = request.getParameter("name");
             String fName = request.getParameter("fName");
             String lName = request.getParameter("lName");
-            Membership.addMember(name, fName, lName);
+            if (!Membership.isMember(name, fName, lName)) {
+                Membership.addMember(name, fName, lName);
+            }
             response.sendRedirect("association?name=" + name + "&action=members");
         }
         else if (action.equals("del-event")) {

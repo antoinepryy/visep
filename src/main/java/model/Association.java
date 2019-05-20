@@ -79,10 +79,6 @@ public class Association implements Serializable {
         return DBConnector.getMembersAsso(nameAsso);
     }
 
-    public Boolean isMember(int userCode) {
-        return DBConnector.isAssoMember(this.name, userCode);
-    }
-
     public Boolean isAdmin(int userCode) {
         return DBConnector.isAssoAdmin(this.name, userCode);
     }
