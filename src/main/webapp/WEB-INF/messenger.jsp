@@ -49,8 +49,6 @@
                     <button class="btn btn-primary">Envoyer</button>
                 </form>
 
-
-
             </c:when>
             <c:when test="${action.equals('list')}">
             <jsp:useBean id="messages" type="java.util.List<model.Message>" scope="request" />
