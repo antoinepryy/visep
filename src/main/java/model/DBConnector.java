@@ -133,7 +133,6 @@ public class DBConnector {
 
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
 
-
             databasePrepareStat.setInt(1, Integer.parseInt(uname));
             databasePrepareStat.setString(2 ,pw);
 
@@ -147,16 +146,12 @@ public class DBConnector {
             }
             return cd;
 
-        } catch (
-
-                SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e);
 
             return null;
         }
-
-
     }
 
     public static void saveAssociation(Association association){
@@ -176,9 +171,34 @@ public class DBConnector {
 
                     SQLException e) {e.printStackTrace();
             }
+    }
+    public static String getAssociationDescription(Integer idAssociation) {
+        try {
+            makeJDBCConnection();
 
+            // MySQL Select Query Tutorial
+            String getQueryStatement = "SELECT description FROM association WHERE id = ? ";
 
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
 
+            databasePrepareStat.setInt(1, idAssociation);
+
+            // Execute the Query, and get a java ResultSet
+            ResultSet rs = databasePrepareStat.executeQuery();
+
+            // Let's iterate through the java ResultSet
+            String descriptionAssociation = null;
+
+            while (rs.next()){
+                descriptionAssociation = rs.getString("description");
+            }
+            return descriptionAssociation;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return "L'id de l'asso n'est pas bon";
+        }
     }
 
     public static Boolean isAdmin(String code) {
