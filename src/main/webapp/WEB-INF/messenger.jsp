@@ -54,6 +54,7 @@
             </c:when>
             <c:when test="${action.equals('list')}">
                 <jsp:useBean id="messages" type="java.util.List<java.util.List<model.Message>>" scope="request"/>
+                <jsp:useBean id="listUsr" type="java.util.List<model.User>" scope="request"/>
 
                 <h3>Liste des messages</h3>
                 <table class="table">
@@ -65,19 +66,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="message" items="${messages}">
+                    <c:forEach var="message" items="${messages}" varStatus="loop" >
+
                         <tr>
                             <td>
-                                <c:if test="${message.get(0).senderId == 1}">
-                                    ${message.get(0).recipientId}
-                                </c:if>
-                                <c:if test="${message.get(0).recipientId == 1}">
-                                    ${message.get(0).senderId}
 
-                                </c:if>
+                                ${listUsr.get(loop.index).firstName} ${listUsr.get(loop.index).lastName}
+
+
+
                             </td>
                             <td>
-                                    ${message.get(0).text}
+                                <a style="display: block" href="messenger?idconv=${listUsr.get(loop.index).id}">
+                                        ${message.get(0).text}
+                                </a>
+
+
 
                             </td>
                         </tr>

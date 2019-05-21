@@ -79,11 +79,19 @@ public class Messenger extends HttpServlet {
                             }
                         }
                     }
-                    System.out.println("size : " + listToSend.size());
+                    List<User> listUsr = new ArrayList<>();
                     for (int l = 0; l<listToSend.size(); l++){
-                        System.out.println(listToSend.get(l).size());
+                        if (listToSend.get(l).get(0).getSenderId() == userId){
+                            listUsr.add(User.getUserById(listToSend.get(l).get(0).getRecipientId()));
+
+                        }
+                        else if (listToSend.get(l).get(0).getRecipientId() == userId){
+                            listUsr.add(User.getUserById(listMsg.get(l).getSenderId()));
+                        }
+
                     }
                     request.setAttribute("messages", listToSend);
+                    request.setAttribute("listUsr", listUsr);
                 }
 
                 break;

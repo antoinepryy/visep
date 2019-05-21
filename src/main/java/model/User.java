@@ -91,6 +91,10 @@ public class User implements Serializable {
         return DBConnector.checkIfUserExist(uname, pw);
     }
 
+    public static User getUserById(int id){
+        return DBConnector.getUserById(id);
+    }
+
     public static boolean isAdmin(String code) {
         return DBConnector.isAdmin(code);
     }

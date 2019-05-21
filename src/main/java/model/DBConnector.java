@@ -555,4 +555,20 @@ public class DBConnector {
         }
     }
 
+    public static User getUserById(int id){
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT * FROM user WHERE id = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, id);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            rs.next();
+            User usr = new User(rs.getInt("id"),rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
+            return usr;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
