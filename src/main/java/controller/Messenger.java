@@ -37,16 +37,24 @@ public class Messenger extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        HttpSession session=request.getSession();
+        int userCode = Integer.parseInt(String.valueOf(session.getAttribute("user")));
+        int userId = DBConnector.getUserId(userCode);
         if (action == null){action = "list";}
         switch (action){
+            case "see":
+                int idConv = Integer.parseInt(request.getParameter("idconv"));
+                List<Message> msgList = DBConnector.getMessagesConv(userId, idConv);
+                request.setAttribute("msgList", msgList);
+
+
+
             case "send":
                 List<User> listUser = DBConnector.getAllUsers();
                 request.setAttribute("users", listUser);
 
             case "list":
-                HttpSession session=request.getSession();
-                int userCode = Integer.parseInt(String.valueOf(session.getAttribute("user")));
-                int userId = DBConnector.getUserId(userCode);
+
 
                 List<Message> listMsg = DBConnector.getAllMessagesReceivedByUser(userId);
                 if (listMsg != null && !listMsg.isEmpty()){

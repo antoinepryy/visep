@@ -47,7 +47,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-group w-50 mx-auto">
-                                    <input  class="form-control" name="mail" type="text" required placeholder="Email">
+                                    <input  class="form-control" name="mail" type="email" required placeholder="Email">
                                 </div>
                             </div>
                         </div>

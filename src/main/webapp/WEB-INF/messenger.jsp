@@ -8,6 +8,8 @@
 <t:layout-connected>
     <jsp:body>
         <jsp:useBean id="action" type="java.lang.String" scope="request"/>
+        <jsp:useBean id="user" type="java.lang.String" scope="session" />
+
 
         <h2 class="text-primary">Messenger</h2>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -24,9 +26,29 @@
         </nav>
         <br/>
         <c:choose>
+            <c:when test="${action.equals('see')}">
+                <jsp:useBean id="msgList" type="java.util.List<model.Message>" scope="request"/>
+                <fmt:parseNumber var="user_id" value="${user}" integerOnly="true" />
+                <c:forEach var="msg" items="${msgList}">
+                    <div class="p-5">
+                        <c:if test="${msg.senderId==user}">
+                            <div class="w-25 text-primary" >
+                                Envoyé ${msg.text}
+                            </div>
+                        </c:if>
+                        <c:if test="${msg.recipientId==user}">
+                            <div class="w-25 bg-primary" >
+                                    Reçu ${msg.text}
+                            </div>
+                        </c:if>
+
+                    </div>
+                </c:forEach>
+            </c:when>
+
             <c:when test="${action.equals('send')}">
                 <jsp:useBean id="users" type="java.util.List<model.User>" scope="request"/>
-                <jsp:useBean id="user" type="java.lang.String" scope="session" />
+
                 <fmt:parseNumber var="user_id" value="${user}" integerOnly="true" />
 
                 <form method="post" action="messenger">
@@ -77,7 +99,7 @@
 
                             </td>
                             <td>
-                                <a style="display: block" href="messenger?idconv=${listUsr.get(loop.index).id}">
+                                <a style="display: block" href="messenger?action=see&idconv=${listUsr.get(loop.index).id}">
                                         ${message.get(0).text}
                                 </a>
 

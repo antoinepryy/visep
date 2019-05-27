@@ -12,7 +12,6 @@ public class DBConnector {
     static PreparedStatement databasePrepareStat = null;
 
 
-
     private static void makeJDBCConnection() {
 
         try {
@@ -35,7 +34,7 @@ public class DBConnector {
     }
 
 
-    public static List<User> getAllUsers(){
+    public static List<User> getAllUsers() {
         try {
             String getQueryStatement = "SELECT * FROM user";
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
@@ -71,10 +70,10 @@ public class DBConnector {
             while (rs.next()) {
                 String name = rs.getString("first_name");
                 String address = rs.getString("password");
-                
+
 
                 // Simply Print the results
-                System.out.format("%s, %s\n", name,address);
+                System.out.format("%s, %s\n", name, address);
             }
 
         } catch (
@@ -91,7 +90,7 @@ public class DBConnector {
 
     }
 
-    public static void saveUser(User usr){
+    public static void saveUser(User usr) {
 
         try {
             makeJDBCConnection();
@@ -110,9 +109,9 @@ public class DBConnector {
                 databasePrepareStat.executeUpdate();
             } catch (
 
-                    SQLException e) {e.printStackTrace();
+                    SQLException e) {
+                e.printStackTrace();
             }
-
 
 
             databasePrepareStat.close();
@@ -124,6 +123,7 @@ public class DBConnector {
         }
 
     }
+
     public static String checkIfUserExist(String uname, String pw) {
         try {
             makeJDBCConnection();
@@ -134,14 +134,14 @@ public class DBConnector {
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
 
             databasePrepareStat.setInt(1, Integer.parseInt(uname));
-            databasePrepareStat.setString(2 ,pw);
+            databasePrepareStat.setString(2, pw);
 
             // Execute the Query, and get a java ResultSet
             ResultSet rs = databasePrepareStat.executeQuery();
 
             // Let's iterate through the java ResultSet
             String cd = null;
-            while (rs.next()){
+            while (rs.next()) {
                 cd = rs.getString("code");
             }
             return cd;
@@ -154,24 +154,26 @@ public class DBConnector {
         }
     }
 
-    public static void saveAssociation(Association association){
+    public static void saveAssociation(Association association) {
 
-            try {
-                String insertQueryStatement = "INSERT INTO association(admin_id, name, description, recruitment)  VALUES (?,?,?,?)";
+        try {
+            String insertQueryStatement = "INSERT INTO association(admin_id, name, description, recruitment)  VALUES (?,?,?,?)";
 
-                databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
-                databasePrepareStat.setInt(1, 0);
-                databasePrepareStat.setString(2, association.getName());
-                databasePrepareStat.setString(3, association.getDescription());
-                databasePrepareStat.setString(4, association.getRecruitment());
+            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+            databasePrepareStat.setInt(1, 0);
+            databasePrepareStat.setString(2, association.getName());
+            databasePrepareStat.setString(3, association.getDescription());
+            databasePrepareStat.setString(4, association.getRecruitment());
 
 
-                databasePrepareStat.executeUpdate();
-            } catch (
+            databasePrepareStat.executeUpdate();
+        } catch (
 
-                    SQLException e) {e.printStackTrace();
-            }
+                SQLException e) {
+            e.printStackTrace();
+        }
     }
+
     public static String getAssociationDescription(Integer idAssociation) {
         try {
             makeJDBCConnection();
@@ -189,7 +191,7 @@ public class DBConnector {
             // Let's iterate through the java ResultSet
             String descriptionAssociation = null;
 
-            while (rs.next()){
+            while (rs.next()) {
                 descriptionAssociation = rs.getString("description");
             }
             return descriptionAssociation;
@@ -292,8 +294,7 @@ public class DBConnector {
             int id;
             if (rs.next()) {
                 id = rs.getInt("id");
-            }
-            else {
+            } else {
                 id = 0;
             }
             String updateQueryStatement = "UPDATE association SET admin_id = ? WHERE name = ?";
@@ -344,7 +345,7 @@ public class DBConnector {
             databasePrepareStat.setString(1, nameAsso);
             ResultSet rs = databasePrepareStat.executeQuery();
             List<User> members = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 User member = new User(rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
                 members.add(member);
             }
@@ -360,7 +361,7 @@ public class DBConnector {
             makeJDBCConnection();
             String getQueryStatement = "SELECT user.code FROM association INNER JOIN user ON association.admin_id = user.id WHERE association.name = ?";
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-            databasePrepareStat.setString(1,assoName);
+            databasePrepareStat.setString(1, assoName);
             ResultSet rs = databasePrepareStat.executeQuery();
             if (rs.next()) {
                 if (rs.getInt("code") == userCode) {
@@ -379,9 +380,9 @@ public class DBConnector {
             makeJDBCConnection();
             String updateQueryStatement = "UPDATE association SET description = ?, recruitment = ? WHERE name = ?";
             databasePrepareStat = databaseConn.prepareStatement(updateQueryStatement);
-            databasePrepareStat.setString(1,association.getDescription());
-            databasePrepareStat.setString(2,association.getRecruitment());
-            databasePrepareStat.setString(3,association.getName());
+            databasePrepareStat.setString(1, association.getDescription());
+            databasePrepareStat.setString(2, association.getRecruitment());
+            databasePrepareStat.setString(3, association.getName());
             databasePrepareStat.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -517,7 +518,7 @@ public class DBConnector {
         }
     }
 
-    public static List<Message> getAllMessagesReceivedByUser(int id){
+    public static List<Message> getAllMessagesReceivedByUser(int id) {
         try {
             makeJDBCConnection();
             String getQueryStatement = "SELECT * FROM message WHERE id_recipient = ? OR id_sender = ? ORDER BY date DESC";
@@ -527,7 +528,7 @@ public class DBConnector {
             ResultSet rs = databasePrepareStat.executeQuery();
             List<Message> messages = new ArrayList<>();
             while (rs.next()) {
-                Message msg = new Message(rs.getInt("id"),rs.getInt("id_sender"), rs.getInt("id_recipient"), rs.getDate("date"), rs.getString("text"));
+                Message msg = new Message(rs.getInt("id"), rs.getInt("id_sender"), rs.getInt("id_recipient"), rs.getDate("date"), rs.getString("text"));
                 messages.add(msg);
 
             }
@@ -538,7 +539,7 @@ public class DBConnector {
         }
     }
 
-    public static void sendMessage(int from, int to, String msg){
+    public static void sendMessage(int from, int to, String msg) {
         try {
             makeJDBCConnection();
             String insertQueryStatement = "INSERT INTO message(id_sender, id_recipient, text) VALUE (?, ? ,?)";
@@ -575,7 +576,7 @@ public class DBConnector {
         }
     }
 
-    public static User getUserById(int id){
+    public static User getUserById(int id) {
         try {
             makeJDBCConnection();
             String getQueryStatement = "SELECT * FROM user WHERE id = ?";
@@ -583,12 +584,38 @@ public class DBConnector {
             databasePrepareStat.setInt(1, id);
             ResultSet rs = databasePrepareStat.executeQuery();
             rs.next();
-            User usr = new User(rs.getInt("id"),rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
+            User usr = new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null);
             return usr;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
+
+    public static List<Message> getMessagesConv(int id_user, int id_other) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT * FROM message WHERE id_recipient = ? AND id_sender = ? OR  id_recipient = ? AND id_sender = ? order by DATE asc ";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, id_user);
+            databasePrepareStat.setInt(2, id_other);
+            databasePrepareStat.setInt(3, id_other);
+            databasePrepareStat.setInt(4, id_user);
+            System.out.println(getQueryStatement);
+
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<Message> l = new ArrayList<>();
+            while (rs.next()) {
+                Message m = new Message(rs.getInt("id"), rs.getInt("id_sender"), rs.getInt("id_recipient"), rs.getDate("date"), rs.getString("text"));
+                l.add(m);
+            }
+            return l;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }
