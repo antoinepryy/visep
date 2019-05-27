@@ -49,7 +49,7 @@ public class Messenger extends HttpServlet {
                 int userId = DBConnector.getUserId(userCode);
 
                 List<Message> listMsg = DBConnector.getAllMessagesReceivedByUser(userId);
-                if (listMsg != null){
+                if (listMsg != null && !listMsg.isEmpty()){
                     List<List<Message>> listToSend = new ArrayList<>();
                     listToSend.add(new ArrayList<Message>());
                     listToSend.get(0).add(listMsg.get(0));
@@ -75,8 +75,6 @@ public class Messenger extends HttpServlet {
                                 listToSend.add(newRow);
                                 break;
                             }
-                            else{
-                            }
                         }
                     }
                     List<User> listUsr = new ArrayList<>();
@@ -93,7 +91,12 @@ public class Messenger extends HttpServlet {
                     request.setAttribute("messages", listToSend);
                     request.setAttribute("listUsr", listUsr);
                 }
-
+                else{
+                    List<List<Message>> listToSend = new ArrayList<>();
+                    List<User> listUsr = new ArrayList<>();
+                    request.setAttribute("messages",listToSend);
+                    request.setAttribute("listUsr", listUsr);
+                }
                 break;
             case "read":
                 break;
