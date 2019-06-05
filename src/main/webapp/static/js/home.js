@@ -1,15 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [ 'dayGrid' ],
-        events: [
-            {
-                title: 'Barbecue',
-                start: '2019-05-28',
-                end: '2019-05-28'
-            }
-        ]
+        plugins: [ 'dayGrid' ]
     });
+    $.post('home', function(events) {
+        events.forEach(function(event) {
+            calendar.addEvent({title: event.description , start: event.dateEvent});
+        });
+    }, "json");
     calendar.render();
 });

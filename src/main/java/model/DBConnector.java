@@ -471,6 +471,25 @@ public class DBConnector {
         }
     }
 
+    public static List<Event> getAllEvents() {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT event.id, event.date, event.description, association.name FROM event LEFT JOIN association ON event.association_id = association.id";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<Event> events = new ArrayList<>();
+            while (rs.next()) {
+                Association association = new Association(rs.getString("name"), null, null, null);
+                Event event = new Event(rs.getInt("id"), rs.getDate("date"), rs.getString("description"), association);
+                events.add(event);
+            }
+            return events;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static List<Event> getEventsAsso(String assoName) {
         try {
             makeJDBCConnection();
