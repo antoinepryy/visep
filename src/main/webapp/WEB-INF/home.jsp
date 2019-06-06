@@ -5,6 +5,7 @@
     <jsp:attribute name="head">
         <link href='static/calendar/core/main.css' rel='stylesheet' />
         <link href='static/calendar/daygrid/main.css' rel='stylesheet' />
+         <link rel="stylesheet" href="static/css/home.css" />
     </jsp:attribute>
     <jsp:body>
         <div>

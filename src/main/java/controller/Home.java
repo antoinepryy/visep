@@ -19,11 +19,10 @@ public class Home extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Event> events = DBConnector.getAllEvents();
-        response.setContentType("json");
-        PrintWriter out;
-        out = response.getWriter();
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        out.println(gson.toJson(events));
+        gson.toJson(events, out);
         out.close();
     }
 
