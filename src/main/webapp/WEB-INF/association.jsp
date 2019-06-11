@@ -5,11 +5,17 @@
 <%@page isELIgnored="false" %>
 
 <t:layout-connected>
+    <jsp:attribute name="head">
+            <link rel="stylesheet" href="static/css/association.css">
+    </jsp:attribute>
     <jsp:body>
         <jsp:useBean id="association" type="model.Association" scope="request" />
         <jsp:useBean id="action" type="java.lang.String" scope="request" />
         <jsp:useBean id="isAdmin" type="java.lang.Boolean" scope="request" />
-        <h2 class="text-primary"><jsp:getProperty name="association" property="name"/></h2>
+        <div id="header">
+            <h2 class="text-primary"><jsp:getProperty name="association" property="name"/></h2>
+            <input type="checkbox" id="${association.id}" /><label for="${association.id}" class="badge badge-primary"><p class="suivre">Suivre</p><p class="suivi">Suivi</p></label>
+        </div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav">

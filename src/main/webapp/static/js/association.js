@@ -23,5 +23,20 @@ $(document).ready(function() {
         mm='0'+mm
     }
     today = yyyy+'-'+mm+'-'+dd;
-    document.getElementById("date").setAttribute("min", today);
+    $('#date').prop("min", today);
+    $.post('association?action=follower', {associationId: $(':checkbox').attr('id')}, function(isFollower) {
+        console.log(isFollower);
+        if (isFollower) {
+            $(':checkbox').prop('checked', true);
+        }
+    });
+});
+
+$(':checkbox').change(function () {
+    if ($(this).is(':checked')) {
+        $.post('association?action=add-follower', {associationId: $(this).attr('id')});
+    }
+    else {
+        $.post('association?action=del-follower', {associationId: $(this).attr('id')});
+    }
 });

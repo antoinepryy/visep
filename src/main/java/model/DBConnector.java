@@ -327,7 +327,7 @@ public class DBConnector {
             databasePrepareStat.setString(1, nameAsso);
             ResultSet rs = databasePrepareStat.executeQuery();
             if (rs.next()) {
-                Association association = new Association(rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), null);
+                Association association = new Association(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getString("recruitment"), null);
                 return association;
             }
             return null;
@@ -474,13 +474,40 @@ public class DBConnector {
     public static List<Event> getAllEvents() {
         try {
             makeJDBCConnection();
-            String getQueryStatement = "SELECT event.id, event.date, event.description, association.name FROM event LEFT JOIN association ON event.association_id = association.id";
+            String getQueryStatement = "SELECT event.id, event.date, event.description, association.id, association.name FROM event LEFT JOIN association ON event.association_id = association.id";
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
             ResultSet rs = databasePrepareStat.executeQuery();
             List<Event> events = new ArrayList<>();
             while (rs.next()) {
-                Association association = new Association(rs.getString("name"), null, null, null);
-                Event event = new Event(rs.getInt("id"), rs.getDate("date"), rs.getString("description"), association);
+                Association association = new Association(rs.getInt("association.id"), rs.getString("name"), null, null, null);
+                Event event = new Event(rs.getInt("event.id"), rs.getDate("date"), rs.getString("description"), association);
+                events.add(event);
+            }
+            return events;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<Event> getEvents(int userId, boolean followed) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement;
+            if (followed) {
+                getQueryStatement = "SELECT event.id, event.date, event.description, association.id, association.name, follower.id FROM event LEFT JOIN association ON event.association_id = association.id LEFT JOIN follower ON event.association_id = follower.association_id WHERE follower.user_id = ?";
+                databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+                databasePrepareStat.setInt(1, userId);
+            }
+            else {
+                getQueryStatement = "SELECT event.id, event.date, event.description, association.id, association.name, follower.id FROM event LEFT JOIN association ON event.association_id = association.id LEFT JOIN follower ON event.association_id = follower.association_id WHERE follower.user_id IS NULL";
+                databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            }
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<Event> events = new ArrayList<>();
+            while (rs.next()) {
+                Association association = new Association(rs.getInt("association.id"), rs.getString("name"), null, null, null);
+                Event event = new Event(rs.getInt("event.id"), rs.getDate("date"), rs.getString("description"), association);
                 events.add(event);
             }
             return events;
@@ -636,5 +663,67 @@ public class DBConnector {
         }
     }
 
+    public static List<Follower> getFollowers(int userId) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT * FROM follower WHERE user_id = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, userId);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            List<Follower> followers = new ArrayList<>();
+            while (rs.next()) {
+                Follower follower = new Follower(rs.getInt("id"), rs.getInt("user_id"), rs.getInt("association_id"));
+                followers.add(follower);
+            }
+            return followers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Boolean isFollower(int userId, int associationId) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT * FROM follower WHERE user_id = ? AND association_id = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, userId);
+            databasePrepareStat.setInt(2, associationId);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void addFollower(int userId, int associationId) {
+        try {
+            makeJDBCConnection();
+            String insertQueryStatement = "INSERT INTO follower(user_id, association_id) VALUE (?,?)";
+            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+            databasePrepareStat.setInt(1, userId);
+            databasePrepareStat.setInt(2, associationId);
+            databasePrepareStat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void delFollower(int userId, int associationId) {
+        try {
+            makeJDBCConnection();
+            String deleteQueryStatement = "DELETE FROM follower WHERE user_id = ? AND association_id = ?";
+            databasePrepareStat = databaseConn.prepareStatement(deleteQueryStatement);
+            databasePrepareStat.setInt(1, userId);
+            databasePrepareStat.setInt(2, associationId);
+            databasePrepareStat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

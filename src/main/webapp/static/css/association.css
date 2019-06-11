@@ -1,6 +1,10 @@
-.col-10 {
-    text-align: left;
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+
 
 label {
     width: 60px;
@@ -9,6 +13,7 @@ label {
 
 input[type="checkbox"] {
     -webkit-appearance: none;
+    margin-left: 15px;
 }
 
 input[type="checkbox"]:checked ~ label {

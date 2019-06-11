@@ -1,9 +1,8 @@
 package controller;
 
-import model.DBConnector;
-import model.Event;
-import model.Membership;
-import model.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -65,6 +65,40 @@ public class Association extends HttpServlet {
             String description = request.getParameter("description");
             Event.create(name, dateSQL, description);
             response.sendRedirect("association?name=" + name + "&action=events");
+        }
+        else if (action.equals("followers")) {
+            HttpSession session = request.getSession();
+            int userId = Integer.parseInt((String) session.getAttribute("user"));
+            List<Follower> followers = Follower.getFollowers(userId);
+            response.setContentType("application/json");
+            PrintWriter out = response.getWriter();
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(followers, out);
+            out.close();
+        }
+        else if (action.equals("follower")) {
+            HttpSession session = request.getSession();
+            int userId = Integer.parseInt((String) session.getAttribute("user"));
+            int associationId = Integer.parseInt(request.getParameter("associationId"));
+            System.out.println(associationId);
+            Boolean isFollower = Follower.isFollower(userId, associationId);
+            response.setContentType("application/json");
+            PrintWriter out = response.getWriter();
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(isFollower, out);
+            out.close();
+        }
+        else if (action.equals("add-follower")) {
+            HttpSession session = request.getSession();
+            int userId = Integer.parseInt((String) session.getAttribute("user"));
+            int associationId = Integer.parseInt(request.getParameter("associationId"));
+            Follower.addFollower(userId, associationId);
+        }
+        else if (action.equals("del-follower")) {
+            HttpSession session = request.getSession();
+            int userId = Integer.parseInt((String) session.getAttribute("user"));
+            int associationId = Integer.parseInt(request.getParameter("associationId"));
+            Follower.delFollower(userId, associationId);
         }
     }
 

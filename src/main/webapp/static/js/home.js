@@ -11,9 +11,11 @@ $(document).ready(function() {
         }
     });
     $.post('home', function(events) {
-        console.log(events);
-        events.forEach(function(event) {
+        events[0].forEach(function(event) {
             calendar.addEvent({title: event.association.name + ' - ' + event.description, start: event.dateEvent});
+        });
+        events[1].forEach(function(event) {
+            calendar.addEvent({title: event.association.name + ' - ' + event.description, start: event.dateEvent, backgroundColor: 'gainsboro', borderColor: 'gainsboro'})
         });
     });
     calendar.render();

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -18,11 +19,14 @@ import java.util.List;
 public class Home extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Event> events = DBConnector.getAllEvents();
+        HttpSession session = request.getSession();
+        int userId = Integer.parseInt((String) session.getAttribute("user"));
+        List<Event> followedEvents = DBConnector.getEvents(userId, true);
+        List<Event> otherEvents = DBConnector.getEvents(userId, false);
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        gson.toJson(events, out);
+        gson.toJson(new List[]{followedEvents, otherEvents}, out);
         out.close();
     }
 

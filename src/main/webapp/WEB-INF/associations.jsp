@@ -22,10 +22,12 @@
                 <tr>
                     <td>${association.name}</td>
                     <td>${association.description}</td>
-                    <td><a href="association?name=${association.name}" class="badge badge-primary">Plus d'infos</a></td>
+                    <td><a href="association?name=${association.name}" class="badge badge-secondary">Plus d'infos</a></td>
+                    <td><input type="checkbox" id="${association.id}" /><label for="${association.id}" class="badge badge-primary"><p class="suivre">Suivre</p><p class="suivi">Suivi</p></label></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </jsp:body>
 </t:layout-connected>
+<script src="static/js/associations.js"></script>
