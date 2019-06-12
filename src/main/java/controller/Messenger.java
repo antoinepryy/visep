@@ -46,16 +46,14 @@ public class Messenger extends HttpServlet {
                 int idConv = Integer.parseInt(request.getParameter("idconv"));
                 List<Message> msgList = DBConnector.getMessagesConv(userId, idConv);
                 request.setAttribute("msgList", msgList);
-
-
+                User friend = DBConnector.getUserById(idConv);
+                request.setAttribute("friend", friend);
 
             case "send":
                 List<User> listUser = DBConnector.getAllUsers();
                 request.setAttribute("users", listUser);
 
             case "list":
-
-
                 List<Message> listMsg = DBConnector.getAllMessagesReceivedByUser(userId);
                 if (listMsg != null && !listMsg.isEmpty()){
                     List<List<Message>> listToSend = new ArrayList<>();
@@ -110,6 +108,7 @@ public class Messenger extends HttpServlet {
                 break;
 
         }
+        request.setAttribute("userId", userId);
         request.setAttribute("action", action);
         request.getRequestDispatcher("/WEB-INF/messenger.jsp").forward(request, response);
     }

@@ -6,9 +6,12 @@
 <%@page isELIgnored="false" %>
 
 <t:layout-connected>
+    <jsp:attribute name="head">
+            <link rel="stylesheet" href="static/css/messenger.css">
+    </jsp:attribute>
     <jsp:body>
-        <jsp:useBean id="action" type="java.lang.String" scope="request"/>
-        <jsp:useBean id="user" type="java.lang.String" scope="session" />
+        <jsp:useBean id="action" type="java.lang.String" scope="request" />
+        <jsp:useBean id="userId" type="java.lang.Integer" scope="request" />
 
 
         <h2 class="text-primary">Messenger</h2>
@@ -28,28 +31,26 @@
         <c:choose>
             <c:when test="${action.equals('see')}">
                 <jsp:useBean id="msgList" type="java.util.List<model.Message>" scope="request"/>
-                <fmt:parseNumber var="user_id" value="${user}" integerOnly="true" />
+                <jsp:useBean id="friend" type="model.User" scope="request" />
+                <h4>${friend.firstName} ${friend.lastName}</h4>
                 <c:forEach var="msg" items="${msgList}">
-                    <div class="p-5">
-                        <c:if test="${msg.senderId==user}">
-                            <div class="w-25 text-primary" >
-                                Envoyé ${msg.text}
+                    <div class="message">
+                        <c:if test="${msg.senderId == userId}">
+                            <div class="bg-primary text-white float-right envoye" >
+                                ${msg.text}
                             </div>
                         </c:if>
-                        <c:if test="${msg.recipientId==user}">
-                            <div class="w-25 bg-primary" >
-                                    Reçu ${msg.text}
+                        <c:if test="${msg.recipientId == userId}">
+                            <div class="bg-light float-left recu" >
+                                ${msg.text}
                             </div>
                         </c:if>
-
                     </div>
                 </c:forEach>
             </c:when>
 
             <c:when test="${action.equals('send')}">
                 <jsp:useBean id="users" type="java.util.List<model.User>" scope="request"/>
-
-                <fmt:parseNumber var="user_id" value="${user}" integerOnly="true" />
 
                 <form method="post" action="messenger">
                     <h5>Utilisateur</h5>
@@ -58,7 +59,7 @@
 
 
                         <c:forEach var="user" items="${users}">
-                            <c:if test="${user.code != user_id}">
+                            <c:if test="${user.id != userId}">
                                 <option value="${user.id}">${user.firstName} ${user.lastName}</option>
                             </c:if>
                         </c:forEach>

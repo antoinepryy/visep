@@ -646,8 +646,6 @@ public class DBConnector {
             databasePrepareStat.setInt(2, id_other);
             databasePrepareStat.setInt(3, id_other);
             databasePrepareStat.setInt(4, id_user);
-            System.out.println(getQueryStatement);
-
             ResultSet rs = databasePrepareStat.executeQuery();
             List<Message> l = new ArrayList<>();
             while (rs.next()) {

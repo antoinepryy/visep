@@ -1,0 +1,18 @@
+.message {
+    display: flow-root;
+    padding: 10px 0;
+}
+
+.recu {
+    border-radius: 15px;
+    padding: 0 10px;
+    max-width: 60%;
+    text-align: left;
+}
+
+.envoye {
+    border-radius: 15px;
+    padding: 0 10px;
+    max-width: 60%;
+    text-align: left;
+}
