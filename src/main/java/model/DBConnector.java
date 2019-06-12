@@ -495,14 +495,13 @@ public class DBConnector {
             makeJDBCConnection();
             String getQueryStatement;
             if (followed) {
-                getQueryStatement = "SELECT event.id, event.date, event.description, association.id, association.name, follower.id FROM event LEFT JOIN association ON event.association_id = association.id LEFT JOIN follower ON event.association_id = follower.association_id WHERE follower.user_id = ?";
-                databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-                databasePrepareStat.setInt(1, userId);
+                getQueryStatement = "SELECT event.id, event.date, event.description, association.id, association.name FROM event LEFT JOIN association ON event.association_id = association.id LEFT JOIN follower ON event.association_id = follower.association_id WHERE follower.user_id = ?";
             }
             else {
-                getQueryStatement = "SELECT event.id, event.date, event.description, association.id, association.name, follower.id FROM event LEFT JOIN association ON event.association_id = association.id LEFT JOIN follower ON event.association_id = follower.association_id WHERE follower.user_id IS NULL";
-                databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+                getQueryStatement = "SELECT event.id, event.date, event.description, association.id, association.name FROM event LEFT JOIN association ON event.association_id = association.id LEFT JOIN follower ON event.association_id = follower.association_id WHERE event.id NOT IN (SELECT event.id FROM event LEFT JOIN association ON event.association_id = association.id LEFT JOIN follower ON event.association_id = follower.association_id WHERE follower.user_id = ?)";
             }
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, userId);
             ResultSet rs = databasePrepareStat.executeQuery();
             List<Event> events = new ArrayList<>();
             while (rs.next()) {

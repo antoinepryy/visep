@@ -20,7 +20,8 @@ public class Home extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int userId = Integer.parseInt((String) session.getAttribute("user"));
+        int userCode = Integer.parseInt((String) session.getAttribute("user"));
+        int userId = DBConnector.getUserId(userCode);
         List<Event> followedEvents = DBConnector.getEvents(userId, true);
         List<Event> otherEvents = DBConnector.getEvents(userId, false);
         response.setContentType("application/json");
