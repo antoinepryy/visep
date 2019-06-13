@@ -19,6 +19,9 @@ import java.io.PrintWriter;
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        if (action == null) {
+            action = "register";
+        }
         if (action.equals("checkCode")) {
             int code = Integer.parseInt(request.getParameter("code"));
             Boolean isAvailable = DBConnector.isAvailable(code);

@@ -16,3 +16,11 @@
     max-width: 60%;
     text-align: left;
 }
+
+#respond textarea {
+    margin-top: 15px;
+}
+
+#respond button {
+    margin: 5px 0;
+}

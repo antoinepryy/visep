@@ -47,6 +47,10 @@
                         </c:if>
                     </div>
                 </c:forEach>
+                <form method="post" action="messenger?action=respond&idconv=${friend.id}" id="respond">
+                    <textarea class="form-control" name="text"></textarea>
+                    <button class="btn btn-primary float-right">Envoyer</button>
+                </form>
             </c:when>
 
             <c:when test="${action.equals('send')}">

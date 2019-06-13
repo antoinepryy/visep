@@ -1,5 +1,7 @@
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.DBConnector;
 import model.Message;
 import model.User;
@@ -11,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,20 +20,27 @@ import java.util.List;
 public class Messenger extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        HttpSession session=request.getSession();
-        PrintWriter out = response.getWriter();
-        int userId = Integer.parseInt(String.valueOf(session.getAttribute("user")));
-
-        String dest = request.getParameter("user-select");
-        String msg = request.getParameter("text");
-
-        DBConnector.sendMessage(DBConnector.getUserId(userId),Integer.parseInt(dest),msg);
-        out.println(userId);
-        out.println(dest);
-        out.println(msg);
-        response.sendRedirect("messenger?action=list");
-
-
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "new";
+        }
+        if (action.equals("respond")) {
+            HttpSession session = request.getSession();
+            int userCode = Integer.parseInt(String.valueOf(session.getAttribute("user")));
+            int userId = DBConnector.getUserId(userCode);
+            int idConv = Integer.parseInt(String.valueOf(request.getParameter("idconv")));
+            String msg = request.getParameter("text");
+            DBConnector.sendMessage(userId, idConv, msg);
+            response.sendRedirect("messenger?action=see&idconv=" + idConv);
+        }
+        else {
+            HttpSession session = request.getSession();
+            int userId = Integer.parseInt(String.valueOf(session.getAttribute("user")));
+            String dest = request.getParameter("user-select");
+            String msg = request.getParameter("text");
+            DBConnector.sendMessage(DBConnector.getUserId(userId), Integer.parseInt(dest), msg);
+            response.sendRedirect("messenger?action=list");
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
