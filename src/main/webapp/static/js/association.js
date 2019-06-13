@@ -25,7 +25,6 @@ $(document).ready(function() {
     today = yyyy+'-'+mm+'-'+dd;
     $('#date').prop("min", today);
     $.post('association?action=follower', {associationId: $(':checkbox').attr('id')}, function(isFollower) {
-        console.log(isFollower);
         if (isFollower) {
             $(':checkbox').prop('checked', true);
         }

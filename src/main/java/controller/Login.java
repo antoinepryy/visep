@@ -19,11 +19,6 @@ public class Login extends HttpServlet {
         String uname=request.getParameter("username");
         String pword=request.getParameter("password");
         response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-
-
-
-
         if(User.isAuthenticationValidated(uname, pword) != null) {
             HttpSession session=request.getSession();
             session.setAttribute("user",uname);
@@ -32,7 +27,6 @@ public class Login extends HttpServlet {
         }
         else{
             response.sendRedirect("login");
-
         }
     }
 

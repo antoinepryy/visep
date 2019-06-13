@@ -1,8 +1,8 @@
 package model;
 
-import org.w3c.dom.stylesheets.MediaList;
+import com.google.common.hash.Hashing;
 
-import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +13,12 @@ public class DBConnector {
 
 
     private static void makeJDBCConnection() {
-
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
-
         try {
             databaseConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/visep?useUnicode=yes&characterEncoding=utf8", "root", "");
             if (databaseConn != null) {
@@ -30,9 +28,28 @@ public class DBConnector {
             e.printStackTrace();
             return;
         }
-
     }
 
+    private static String hash(String password) {
+        return Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+    }
+
+    public static Boolean isAvailable(int code) {
+        try {
+            makeJDBCConnection();
+            String getQueryStatement = "SELECT * FROM user WHERE code = ?";
+            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
+            databasePrepareStat.setInt(1, code);
+            ResultSet rs = databasePrepareStat.executeQuery();
+            if (rs.next()) {
+                return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static List<User> getAllUsers() {
         try {
@@ -42,104 +59,41 @@ public class DBConnector {
             List<User> lst = new ArrayList<>();
             while (rs.next()) {
                 lst.add(new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), null, rs.getInt("code"), null, null));
-
             }
-
             return lst;
 
-        } catch (
-
-                SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static void getUsersFromDB() {
-
-        try {
-            // MySQL Select Query Tutorial
-            String getQueryStatement = "SELECT * FROM user";
-
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-
-            // Execute the Query, and get a java ResultSet
-            ResultSet rs = databasePrepareStat.executeQuery();
-
-            // Let's iterate through the java ResultSet
-            while (rs.next()) {
-                String name = rs.getString("first_name");
-                String address = rs.getString("password");
-
-
-                // Simply Print the results
-                System.out.format("%s, %s\n", name, address);
-            }
-
-        } catch (
-
-                SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    // Simple log utility
-    private static void log(String string) {
-        System.out.println(string);
-
-    }
-
     public static void saveUser(User usr) {
-
         try {
             makeJDBCConnection();
+            String insertQueryStatement = "INSERT INTO user(first_name,last_name,password,code,mail,is_admin)  VALUES (?,?,?,?,?,?)";
+            databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
+            databasePrepareStat.setString(1, usr.getFirstName());
+            databasePrepareStat.setString(2, usr.getLastName());
+            databasePrepareStat.setString(3, hash(usr.getPassword()));
+            databasePrepareStat.setInt(4, usr.getCode());
+            databasePrepareStat.setString(5, usr.getEmail());
+            databasePrepareStat.setBoolean(6, usr.getAdmin());
 
-            try {
-                String insertQueryStatement = "INSERT INTO user(first_name,last_name,password,code,mail,is_admin)  VALUES (?,?,?,?,?,?)";
-
-                databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
-                databasePrepareStat.setString(1, usr.getFirstName());
-                databasePrepareStat.setString(2, usr.getLastName());
-                databasePrepareStat.setString(3, usr.getPassword());
-                databasePrepareStat.setInt(4, usr.getCode());
-                databasePrepareStat.setString(5, usr.getEmail());
-                databasePrepareStat.setBoolean(6, usr.getAdmin());
-
-                databasePrepareStat.executeUpdate();
-            } catch (
-
-                    SQLException e) {
-                e.printStackTrace();
-            }
-
-
-            databasePrepareStat.close();
-            databaseConn.close(); // connection close
-
+            databasePrepareStat.executeUpdate();
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
-
     }
 
     public static String checkIfUserExist(String uname, String pw) {
         try {
             makeJDBCConnection();
-
-            // MySQL Select Query Tutorial
             String getQueryStatement = "SELECT * FROM user WHERE code = ? AND password = ? ";
-
             databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-
             databasePrepareStat.setInt(1, Integer.parseInt(uname));
-            databasePrepareStat.setString(2, pw);
-
-            // Execute the Query, and get a java ResultSet
+            databasePrepareStat.setString(2, hash(pw));
             ResultSet rs = databasePrepareStat.executeQuery();
-
-            // Let's iterate through the java ResultSet
             String cd = null;
             while (rs.next()) {
                 cd = rs.getString("code");
@@ -171,35 +125,6 @@ public class DBConnector {
 
                 SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public static String getAssociationDescription(Integer idAssociation) {
-        try {
-            makeJDBCConnection();
-
-            // MySQL Select Query Tutorial
-            String getQueryStatement = "SELECT description FROM association WHERE id = ? ";
-
-            databasePrepareStat = databaseConn.prepareStatement(getQueryStatement);
-
-            databasePrepareStat.setInt(1, idAssociation);
-
-            // Execute the Query, and get a java ResultSet
-            ResultSet rs = databasePrepareStat.executeQuery();
-
-            // Let's iterate through the java ResultSet
-            String descriptionAssociation = null;
-
-            while (rs.next()) {
-                descriptionAssociation = rs.getString("description");
-            }
-            return descriptionAssociation;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-            return "L'id de l'asso n'est pas bon";
         }
     }
 
