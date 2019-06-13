@@ -1,7 +1,5 @@
 package controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import model.DBConnector;
 import model.Message;
 import model.User;

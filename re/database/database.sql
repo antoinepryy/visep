@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 17 mai 2019 à 22:54
+-- Généré le :  jeu. 13 juin 2019 à 19:17
 -- Version du serveur :  10.1.39-MariaDB
 -- Version de PHP :  7.3.5
 
@@ -41,9 +41,7 @@ CREATE TABLE `association` (
 --
 
 INSERT INTO `association` (`id`, `admin_id`, `name`, `description`, `recruitment`) VALUES
-(2, 4, 'IsePORC', 'Notre association propose des gros macdo', 'Rejoins-nous uniquement si ton estomac est pret !!'),
-(10, 0, 'ofndjkld', 'llkdgnfjk', 'ldnf'),
-(14, 1, 'regfd', 'ergqdfw', 'gerq');
+(16, 0, 'ISEPLive', 'ISEPLive est responsable de tous les vecteurs de communication inter-élèves de l\'ISEP : affiches, sites web des associations, journal de l\'école, podcast, ...', 'A venir ... Restez à l\'affut !');
 
 -- --------------------------------------------------------
 
@@ -63,9 +61,9 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`id`, `date`, `description`, `association_id`) VALUES
-(1, '2019-05-14', 'Super event passé', 2),
-(2, '2019-05-21', 'Super event à venir 1', 2),
-(5, '2019-05-19', 'Gros event !!', 2);
+(12, '2019-06-17', 'Afterwork', 16),
+(13, '2019-06-20', 'Shooting photo de fin d\'année', 16),
+(14, '2019-07-02', 'Livraison des pulls de promo', 16);
 
 -- --------------------------------------------------------
 
@@ -91,16 +89,6 @@ CREATE TABLE `membership` (
   `association_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Déchargement des données de la table `membership`
---
-
-INSERT INTO `membership` (`id`, `user_id`, `association_id`) VALUES
-(4, 4, 2),
-(13, 2, 2),
-(14, 1, 14),
-(15, 1, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -111,7 +99,7 @@ CREATE TABLE `message` (
   `id` int(11) NOT NULL,
   `id_sender` int(11) NOT NULL,
   `id_recipient` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -136,10 +124,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `password`, `code`, `mail`, `is_admin`) VALUES
-(1, 'admin', 'admin', 'admin', 99999, 'admin@admin.com', 0),
-(2, 'uyt', 'uyt', '4567', 1, 'xdfgb', 0),
-(3, 'ijh', 'ijn', 'ijn', 69, 'ijn', 0),
-(4, 'Valentin', 'Rouleau', 'oui', 10790, 'oirfs', 1);
+(13, 'Antoine', 'Perry', '1f0dea80a1af4eefa352c04bdaaa79f79433a7b458aaeaa927cb73ac9f63326a', 10373, 'antoine.perry@isep.fr', 0),
+(15, 'Valentin', 'Rouleau', 'bfb301b26ca5590c4cd741bea37c36d5b4e5fb92dc4880e8c89448bf82b2b94c', 10790, 'valentin.rouleau@isep.fr', 1);
 
 --
 -- Index pour les tables déchargées
@@ -189,37 +175,37 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `association`
 --
 ALTER TABLE `association`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pour la table `event`
 --
 ALTER TABLE `event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `follower`
 --
 ALTER TABLE `follower`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT pour la table `membership`
 --
 ALTER TABLE `membership`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

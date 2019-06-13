@@ -79,7 +79,6 @@ public class DBConnector {
             databasePrepareStat.setInt(4, usr.getCode());
             databasePrepareStat.setString(5, usr.getEmail());
             databasePrepareStat.setBoolean(6, usr.getAdmin());
-
             databasePrepareStat.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,19 +111,20 @@ public class DBConnector {
 
         try {
             String insertQueryStatement = "INSERT INTO association(admin_id, name, description, recruitment)  VALUES (?,?,?,?)";
-
             databasePrepareStat = databaseConn.prepareStatement(insertQueryStatement);
             databasePrepareStat.setInt(1, 0);
             databasePrepareStat.setString(2, association.getName());
             databasePrepareStat.setString(3, association.getDescription());
             databasePrepareStat.setString(4, association.getRecruitment());
-
-
             databasePrepareStat.executeUpdate();
-        } catch (
-
-                SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                databaseConn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
